@@ -1,0 +1,919 @@
+//
+// PGUI
+// Primitive GUI for FOnline based games
+// Wipe/Rotators
+//
+
+#ifndef __PGUI__
+#define __PGUI__
+
+#ifndef valid
+    #define valid#(ptr) (@ptr!=null)
+#endif
+
+//
+// Own copy of used client defines, in case script is used in "abnormal" way
+//
+#define PGUI_RGB #(r,g,b)	(uint((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBA #(r,g,b,a)	(uint(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBi#(r,g,b)	(int((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBAi#(r,g,b,a)	(int(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+
+#define PGUI_PRIMITIVE_POINTLIST	(0)
+#define PGUI_PRIMITIVE_LINELIST		(1)
+#define PGUI_PRIMITIVE_LINESTRIP	(2)
+#define PGUI_PRIMITIVE_TRIANGLELIST	(3)
+#define PGUI_PRIMITIVE_TRIANGLESTRIP	(4)
+#define PGUI_PRIMITIVE_TRIANGLEFAN	(5)
+
+#define PGUI_CLICK_LEFT		(0)
+#define PGUI_CLICK_RIGHT	(1)
+#define PGUI_CLICK_MIDDLE	(2)
+#define PGUI_CLICK_WHEEL_UP	(3)
+#define PGUI_CLICK_WHEEL_DOWN	(4)
+#define PGUI_CLICK_EXT0		(5)
+#define PGUI_CLICK_EXT1		(6)
+#define PGUI_CLICK_EXT2		(7)
+#define PGUI_CLICK_EXT3		(8)
+#define PGUI_CLICK_EXT4		(9)
+
+#define PGUI_FONT_OLD_FO	(0)
+#define PGUI_FONT_NUM		(1)
+#define PGUI_FONT_BIG_NUM	(2)
+#define PGUI_FONT_SAND_NUM	(3)
+#define PGUI_FONT_SPECIAL	(4)
+#define PGUI_FONT_FALLOUT	(5)
+#define PGUI_FONT_THIN		(6)
+#define PGUI_FONT_FAT		(7)
+#define PGUI_FONT_BIG		(8)
+
+class PGUIElement
+{
+    PGUIElement@ parent;
+    array<PGUIElement@> elements;
+
+    private int width, height, left, top;
+    private bool visible, active, focus;
+    private int mouseX, mouseY;
+    private bool mousePressed;
+    private int8 mouseClick;
+    //
+    // Constructors
+    //
+    PGUIElement()
+    {
+	this.PGUIElementInit();
+    }
+
+    PGUIElement( int left, int top, int width, int height )
+    {
+	this.PGUIElementInit();
+
+	this.left   = left;
+	this.top    = top;
+	this.width  = width;
+	this.height = height;
+    }
+
+    void PGUIElementInit() final
+    {
+	@this.parent = null;
+	elements.resize(0);
+
+	this.left = this.top = this.width = this.height = 0;
+	this.visible = this.active = true;
+	this.focus  = false;
+    }
+    //
+    // getters/setters
+    // for real, we need only get_Left() and get_Top(), everything else is just for the consistency :)
+    //
+    int get_Left()
+    {
+	if( valid(this.parent) )
+	    return( this.parent.Left + this.left );
+	else
+	    return( this.left );
+    }
+
+    void set_Left( int left )
+    {
+	this.left = left;
+    }
+
+    int get_Right()
+    {
+	return( this.left + this.width );
+    }
+
+    int get_Top()
+    {
+	if( valid(this.parent) )
+	    return( this.parent.Top + this.top );
+	else
+	    return( this.top );
+    }
+
+    void set_Top( int top )
+    {
+	this.top = top;
+    }
+
+    int get_Bottom()
+    {
+	return( this.top + this.height );
+    }
+
+    int get_Width()
+    {
+	return( this.width );
+    }
+
+    void set_Width( int width )
+    {
+	this.width = width;
+    }
+
+    int get_Height()
+    {
+	return( this.height );
+    }
+
+    void set_Height( int height )
+    {
+	this.height = height;
+    }
+    //
+    // utils
+    //
+    void Position( int left, int top )
+    {
+	this.left = left;
+	this.top = top;
+    }
+
+    void Center()
+    {
+	this.CenterX();
+	this.CenterY();
+    }
+
+    void CenterX()
+    {
+	int w = __ScreenWidth;
+
+	if( valid(this.parent) )
+	    w = this.parent.Width;
+
+	this.Left = w/2 - this.Width/2;
+    }
+
+    void CenterY()
+    {
+	int h = __ScreenHeight;
+
+	if( valid(this.parent) )
+	    h = this.parent.Height;
+
+	this.Top = h/2 - this.Height/2;
+    }
+
+    void Size( int width, int height )
+    {
+	this.width = width;
+	this.height = height;
+    }
+
+    void AutoSize()
+    {
+	this.AutoSize( this.elements );
+    }
+
+    void AutoSize( array<PGUIElement@>& elementsList )
+    {
+	int w = 0, h = 0;
+
+	for( uint e=0, eLen=elementsList.length(); e<eLen; e++ )
+	{
+	    PGUIElement@ element = elementsList[e];
+
+	    if( !valid(element) )
+		continue;
+
+	    if( element.Width > w )
+		w = element.Width;
+	    if( element.Height > h )
+		h = element.Height;
+	}
+
+	this.Size( w, h );
+    }
+
+    bool IsInside( int x, int y )
+    {
+	return( (x>=this.Left) && (x<this.Right) && (y>=this.Top) && (y<this.Bottom) );
+    }
+    //
+    // keyboard
+    //
+    bool KeyDown( uint8 key )
+    {
+	bool isPress = false;
+	for( uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible && element.active )
+		isPress = element.KeyDown( key ) ? true : isPress;
+	}
+
+	return( isPress );
+    }
+
+    bool KeyUp( uint8 key )
+    {
+	bool isPress = false;
+	for( uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible && element.active )
+		isPress = element.KeyUp( key ) ? true : isPress;
+	}
+
+	return( isPress );
+    }
+    //
+    // mouse
+    //
+    void Click()
+    {
+    }
+
+    bool MouseDown( int click, int x, int y )
+    {
+	if( !this.visible )
+	    return( false );
+
+	bool isClick = false;
+	for(uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+	{
+	    isClick = this.elements[e].MouseDown( x, y, click ) ? true : isClick;
+	}
+
+	if( !isClick && this.active &&
+	    click != PGUI_CLICK_WHEEL_DOWN && click != PGUI_CLICK_WHEEL_UP )
+	{
+	    bool inside = this.IsInside( x, y );
+
+	    this.mousePressed = inside;
+	    this.mouseClick = inside ? click : -1;
+	    this.mouseX = inside ? x : -1;
+	    this.mouseY = inside ? y : -1;
+
+	    isClick = inside;
+	}
+
+	this.focus = isClick;
+
+	return( isClick );
+    }
+
+    bool MouseUp( int click, int x, int y )
+    {
+	if( !this.visible )
+	    return( false );
+
+	bool isClick = false;
+	if( this.IsInside( x, y ))
+	{
+	    this.Click();
+	    isClick = true;
+	}
+
+	this.mousePressed = false;
+	this.mouseClick = -1;
+	this.mouseX = -1;
+	this.mouseY = -1;
+
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    isClick = this.elements[e].MouseUp( x, y, click ) ? true : isClick;
+	}
+
+	return( isClick );
+    }
+
+    void MouseMove( int fromX, int fromY, int toX, int toY )
+    {
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible && element.active )
+		element.MouseMove( fromX, fromY, toX, toY );
+	}
+    }
+    //
+    // drawing
+    //
+    void Draw()
+    {
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible )
+		element.Draw();
+	}
+    }
+
+    void DrawFrame( int color = 0 )
+    {
+	if( (this.Left == this.Right) && (this.Top == this.Bottom) )
+		return;
+
+	if( color == 0 )
+		color = int(PGUI_RGB(0,255,0));
+
+	array<int> frame;
+
+	// left
+
+	frame.resize(0);
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Top );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Left+1 );
+	frame.insertLast( this.Bottom+1 );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left+1 );
+	frame.insertLast( this.Top+1 );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+
+	// top
+
+	frame.resize(0);
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Top );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Top );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Top+1 );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Top+1 );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+
+	// right
+
+	frame.resize(0);
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Top );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Right-1 );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right-1 );
+	frame.insertLast( this.Top );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+
+	// bottom
+
+	frame.resize(0);
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Bottom-1 );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Bottom-1 );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+    }
+
+    void DrawBackground( int color = 0 )
+    {
+	if( (this.Left == this.Right) && (this.Top == this.Bottom) )
+		return;
+
+	if( color == 0 )
+		color = PGUI_RGBi(0,255,0);
+
+	array<int> background;
+
+	background.insertLast( this.Left );
+	background.insertLast( this.Top );
+	background.insertLast( color );
+
+	background.insertLast( this.Left );
+	background.insertLast( this.Bottom );
+	background.insertLast( color );
+
+	background.insertLast( this.Right );
+	background.insertLast( this.Bottom );
+	background.insertLast( color );
+
+	background.insertLast( this.Right );
+	background.insertLast( this.Top );
+	background.insertLast( color );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, background );
+    }
+}; // PGUIElement
+
+class PGUIScreen : PGUIElement
+{
+    uint ID, Layer;
+    bool ignoreBorders;
+    bool drawFrame, drawBackground;
+
+    PGUIScreen( uint layer )
+    {
+	super();
+	this.PGUIScreenInit( layer );
+    }
+
+    void PGUIScreenInit( uint layer )
+    {
+	this.ID = 0;
+	this.Layer = layer;
+	this.ignoreBorders = false;
+	this.drawFrame = this.drawBackground = true;
+    }
+
+    void MouseMove( int fromX, int fromY, int toX, int toY ) override
+    {
+	if( this.mousePressed && this.mouseClick == PGUI_CLICK_LEFT )
+	{
+	    int lastX = this.mouseX;
+	    int lastY = this.mouseY;
+	    int offX = toX - fromX;
+	    int offY = toY - fromY;
+
+	    this.Left = this.Left + offX;
+	    this.Top  = this.Top  + offY;
+
+	    if( !this.ignoreBorders )
+	    {
+		if( this.Left + offX < 0 )
+		    this.Left = 0;
+		if( this.Top + offY < 0 )
+		    this.Top = 0;
+		if( this.Right > __ScreenWidth )
+		    this.Left = __ScreenWidth - this.Width;
+		if( this.Bottom > __ScreenHeight )
+		    this.Top = __ScreenHeight - this.Height;
+	    }
+
+	    PGUIElement::MouseMove( fromX, fromY, toX, toY );
+	}
+    }
+    //
+    // drawing
+    //
+    void Draw() override
+    {
+	if( this.drawBackground )
+	    this.DrawBackground( PGUI_RGBAi(0,255,0,100) );
+	if( this.drawFrame )
+	    this.DrawFrame( PGUI_RGBi(0,255,0) );
+
+	PGUIElement::Draw();
+    }
+}; // PGUIScreen
+
+class PGUILabel : PGUIElement
+{
+    string text;
+    uint color;
+    int font;
+    int flags;
+
+    PGUILabel()
+    {
+	super();
+	this.PGUILabelInit( "", PGUI_RGB(0,255,0), PGUI_FONT_FALLOUT, 0 );
+    }
+
+    PGUILabel( string& text )
+    {
+	this.PGUILabelInit( text, PGUI_RGB(0,255,0), PGUI_FONT_FALLOUT, 0 );
+    }
+
+    PGUILabel( string& text, uint color, int font, int flags )
+    {
+	this.PGUILabelInit( text, color, font, flags );
+    }
+
+    private void PGUILabelInit( string& text, uint color, int font, int flags ) final
+    {
+	this.active = false;
+
+	this.text = text;
+	this.color = color;
+	this.font = font;
+	this.flags = flags;
+    }
+
+    void Draw() override
+    {
+	if( this.text.length() > 0 )
+	    DrawText( this.text, this.Left, this.Top, this.Width, this.Height, this.color, this.font, this.flags );
+
+	PGUIElement::Draw();
+    }
+}; // PGUILabel
+
+class PGUISprite : PGUIElement
+{
+    uint id;
+    uint frameCount;
+    string filename;
+
+    PGUISprite()
+    {
+	super();
+	this.PGUISpriteInit();
+
+	this.id = 0;
+	this.RefreshData();
+    }
+
+    PGUISprite( string& filename, int path )
+    {
+	super();
+	this.PGUISpriteInit();
+
+	this.LoadFile( filename, path );
+    }
+
+    PGUISprite( uint nameHash, uint8 dir )
+    {
+	super();
+	this.PGUISpriteInit();
+
+	this.LoadHash( nameHash, dir );
+    }
+
+    private void PGUISpriteInit() final
+    {
+	this.active = false;
+	this.id = this.frameCount = 0;
+    }
+
+    bool LoadFile( string& filename, int path )
+    {
+	if( filename.length() > 0 )
+	{
+	    this.id = LoadSprite( filename, path );
+	    this.filename = filename;
+	}
+	else
+	    this.id = 0;
+
+	this.RefreshData();
+
+	return( this.id > 0 );
+    }
+
+    bool LoadHash( uint nameHash, uint8 dir )
+    {
+	this.id = LoadSprite( nameHash, dir );
+
+	this.RefreshData();
+	return( this.id > 0 );
+    }
+
+    void RefreshData() final
+    {
+	if( this.id > 0 )
+	{
+	    this.width = GetSpriteWidth( this.id, 0 );
+	    this.height = GetSpriteHeight( this.id, 0 );
+	    this.frameCount = GetSpriteCount( this.id );
+	}
+	else
+	{
+	    this.width = this.height = this.frameCount = 0;
+	    this.filename = "";
+	}
+    }
+
+    void Draw() override
+    {
+	if( this.visible && this.id > 0 )
+	    DrawSprite( this.id, -1, this.Left, this.Right, this.Top, this.Bottom, false, false, 0 );
+
+	PGUIElement::Draw();
+    }
+}; // PGUISprite
+
+class PGUIButton : PGUIElement
+{
+    PGUISprite@ picUp;
+    PGUISprite@ picDown;
+    PGUISprite@ picOff;
+
+    bool toggleMode;
+    bool off;
+    bool draw;
+
+    PGUIButton( uint width, uint height )
+    {
+	super();
+	this.PGUIButtonInit();
+
+	this.Width = width;
+	this.Height = height;
+	this.draw = true;
+    }
+
+    PGUIButton( PGUISprite@ spriteUp, PGUISprite@ spriteDown )
+    {
+	super();
+	this.PGUIButtonInit();
+
+	if( valid(spriteUp) )
+	{
+	    @this.picUp = spriteUp;
+	    @this.picUp.parent = this;
+	}
+
+	if( valid(spriteDown) )
+	{
+	    @this.picDown = spriteDown;
+	    @this.picDown.parent = this;
+	}
+	this.draw = false;
+    }
+
+    private void PGUIButtonInit() final
+    {
+	this.active = true;
+
+	this.toggleMode = false;
+    }
+
+    void Click() override
+    {
+	if( this.toggleMode )
+	    this.off = !this.off;
+    }
+
+    void Draw() override
+    {
+	if( this.toggleMode && !this.mousePressed && this.off )
+	{
+	    if( this.draw )
+	    {
+		this.DrawBackground( PGUI_RGBAi(100,100,100,100) );
+		this.DrawFrame( PGUI_RGBi(100,100,100) );
+	    }
+	    else if( !this.draw && valid(this.picOff) )
+		this.picOff.Draw();
+	}
+	else
+	{
+	    if( !this.mousePressed )
+	    {
+		if( this.draw )
+		{
+		    this.DrawBackground( PGUI_RGBAi(0,255,0,125) );
+		    this.DrawFrame( PGUI_RGBi(0,255,0) );
+		}
+		else if( !this.draw && valid(this.picUp) )
+		    this.picUp.Draw();
+	    }
+	    else
+	    {
+		if( this.draw )
+		{
+		    this.DrawBackground( PGUI_RGBAi(0,255,0,170) );
+		    this.DrawFrame( PGUI_RGBi(0,255,0) );
+		}
+		else if( !this.draw && valid(this.picDown) )
+		    this.picDown.Draw();
+	    }
+	}
+
+	PGUIElement::Draw();
+    }
+}; // PGUIButton
+
+class PGUI
+{
+    bool active;
+    bool elementsFirst;
+
+    array<PGUIScreen@> allScreens;
+    array<PGUIScreen@> activeScreens;
+
+    array<uint8> keyPressed;
+
+    PGUI()
+    {
+	this.active = true;
+
+	this.allScreens.resize(0);
+	this.activeScreens.resize(0);
+
+	this.keyPressed.resize(0);
+    }
+    //
+    // keyboard
+    //
+    bool KeyDown( uint8 key )
+    {
+	if( this.keyPressed.find( key ) < 0 )
+	    this.keyPressed.insertLast( key );
+
+	if( this.activeScreens.length() > 0 )
+	{
+	    if( this.activeScreens.last().KeyDown( key ))
+		return( true );
+	}
+
+	return( false );
+    }
+
+    bool KeyUp( uint8 key )
+    {
+	int idx = this.keyPressed.find( key );
+	if( idx >= 0 )
+	    this.keyPressed.removeAt( idx );
+
+	if( this.activeScreens.length() > 0 )
+	{
+	    if( this.activeScreens.last().KeyUp( key ))
+		return( true );
+	}
+
+	return( false );
+    }
+    //
+    // mouse
+    //
+    bool MouseDown( int click, int x = __MouseX, int y = __MouseY )
+    {
+	uint screensLen = this.activeScreens.length();
+	if( screensLen == 0 )
+	    return( false );
+
+	bool found = false;
+	for( int s=screensLen-1; s>=0; s-- )
+	{
+	    PGUIScreen@ screen = this.activeScreens[s];
+	    if( !found && screen.IsInside( x, y ))
+	    {
+		if( screen.MouseDown( click, x, y ))
+		{
+		    this.activeScreens.removeAt(s);
+		    this.activeScreens.insertLast( screen );
+		    found = true;
+		}
+	    }
+	    else
+		found = screen.MouseDown( click, x, y );
+	}
+
+	return( found );
+    }
+
+    bool MouseUp( int click, int x = __MouseX, int y = __MouseY )
+    {
+	uint screensLen = this.activeScreens.length();
+	if( screensLen == 0 )
+	{
+	    return( false );
+	}
+
+	bool found = false;
+	for( int s=screensLen-1; s>=0; s-- )
+	{
+	    found = this.activeScreens[s].MouseUp( click, x, y ) ? true : found;
+	}
+
+	return( found );
+    }
+
+    void MouseMove( int fromX, int fromY, int toX = __MouseX, int toY = __MouseY )
+    {
+	if( this.activeScreens.length() != 0 )
+	{
+	    this.activeScreens.last().MouseMove( fromX, fromY, toX, toY );
+	}
+    }
+
+    //
+    // drawing
+    //
+    void Draw( uint layer )
+    {
+	if( !this.active )
+	    return;
+
+	for( uint s=0, sLen=activeScreens.length(); s<sLen; s++ )
+	{
+	    PGUIScreen@ screen= activeScreens[s];
+
+	    if( screen.Layer != layer )
+		continue;
+
+	    screen.Draw();
+	}
+    }
+
+    //
+    // Utils
+    //
+    bool AddScreen( uint id, PGUIScreen& screen )
+    {
+	if( !IsScreen( id ) && !IsActiveScreen( id ))
+	{
+	    screen.ID = id;
+	    this.allScreens.insertLast( screen );
+	    return( true );
+	}
+
+	return( false );
+    }
+
+    bool IsScreen( uint id )
+    {
+	for( uint s=0, sLen=this.allScreens.length(); s<sLen; s++ )
+	{
+	    if( this.allScreens[s].ID == id )
+		return( true );
+	}
+
+	return( false );
+    }
+
+    bool IsActiveScreen( uint id )
+    {
+	for( uint s=0, sLen=this.activeScreens.length(); s<sLen; s++ )
+	{
+	    if( this.activeScreens[s].ID == id )
+		return( true );
+	}
+
+	return( false );
+    }
+
+    bool ShowScreen( uint id )
+    {
+	if( !this.IsActiveScreen( id ) && this.IsScreen( id ))
+	{
+	    for( uint s=0, sLen=this.allScreens.length(); s<sLen; s++ )
+	    {
+		PGUIScreen@ screen = this.allScreens[s];
+
+		if( screen.ID == id )
+		{
+		    this.activeScreens.insertLast( screen );
+		    return( true );
+		}
+	    }
+	}
+
+	return( false );
+    }
+}; // PGUI
+
+#endif // __PGUI__ //
