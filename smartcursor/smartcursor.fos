@@ -207,7 +207,7 @@ class SmartCursor
 	if( this.drawTool )
 	    __HideCursor = false;
 
-	if( GetCurrentCursor() == CURSOR_DEFAULT )
+	if( GetCurrentMapPid() > 0 && GetCurrentCursor() == CURSOR_DEFAULT )
 	{
 	    // if there's no item under cursor, no magick can be done
 	    ItemCl@ item = GetMonitorItem( __MouseX, __MouseY, false );
