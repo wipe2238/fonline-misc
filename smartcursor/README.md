@@ -16,9 +16,8 @@ flexible, and - i hope! - easier to use, what was the main goal.
 ### History ###
 
 Based on FOnline: 2238 script (by JovankaB)
-
-http://fodev.net/forum/index.php/topic,28748.msg248106.html#msg248106
-https://github.com/rotators/fo2238/blob/master/Server/scripts/client_smart_cursor.fos
+* http://fodev.net/forum/index.php/topic,28748.msg248106.html#msg248106
+* https://github.com/rotators/fo2238/blob/master/Server/scripts/client_smart_cursor.fos
 
 ### Setup ###
 
