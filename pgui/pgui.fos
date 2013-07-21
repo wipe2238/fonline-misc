@@ -736,6 +736,173 @@ class PGUIButton : PGUIElement
     }
 }; // PGUIButton
 
+class PGUITextBox : PGUIElement
+{
+    PGUILabel@ label;
+    string drawText;
+    uint maxLength;
+    bool onlyNumbers;
+
+    private uint cursorPos;
+    private uint cursorChanged;
+    private uint cursorTime;
+    private array<string> cursorList;
+    private string cursor;
+
+    PGUITextBox()
+    {
+	super();
+	PGUILabel@ label = PGUILabel();
+	this.PGUITextBoxInit( label, 0, 0 );
+    }
+
+    PGUITextBox( PGUILabel@ label, uint width, uint height )
+    {
+	super();
+	if( !valid(label) )
+	    @label = PGUILabel();
+
+	this.PGUITextBoxInit( label, width, height );
+    }
+
+    private void PGUITextBoxInit( PGUILabel& label, uint width, uint height ) final
+    {
+	this.Width = width;
+	this.Height = height;
+
+	@this.label = label;
+	@this.label.parent = this;
+
+	this.maxLength = 0;
+	this.onlyNumbers = false;
+
+	this.cursorPos = this.label.text.length();
+	this.cursorChanged = 0;
+	this.cursorTime = 0;
+
+	this.cursorList.insertLast( "." );
+	this.cursorList.insertLast( "!" );
+
+	/*
+	this.cursorList.insertLast( "I" );
+	this.cursorList.insertLast( "/" );
+	this.cursorList.insertLast( "-" );
+	this.cursorList.insertLast( "\\" );
+	*/
+
+
+	/*
+	this.cursorList.insertLast( ":>" );
+	this.cursorList.insertLast( ":)" );
+	this.cursorList.insertLast( ":]" );
+	*/
+
+	this.cursor = "";
+
+	this.RefreshData();
+    }
+
+    bool KeyDown( uint8 key ) override
+    {
+	if( this.focus )
+	{
+	    switch( key )
+	    {
+		case PGUI_DIK_BACK:
+		    if( this.label.text.length() > 0 && this.cursorPos > 0 )
+		    {
+			this.label.text =
+			    substring( this.label.text, 0, this.cursorPos-1 ) +
+			    substring( this.label.text, this.cursorPos, this.label.text.length() - this.cursorPos );
+			cursorPos--;
+		    }
+		    break;
+		case PGUI_DIK_DELETE:
+		    if( this.label.text.length() > 0 && this.cursorPos < this.label.text.length() )
+		    {
+			this.label.text =
+			    substring( this.label.text, 0, this.cursorPos ) +
+			    substring( this.label.text, this.cursorPos+1, this.label.text.length() - this.cursorPos - 1 );
+		    }
+		    break;
+		case PGUI_DIK_HOME:
+		    this.cursorPos = 0;
+		    break;
+		case PGUI_DIK_END:
+		    this.cursorPos = this.label.text.length();
+		    break;
+		case PGUI_DIK_LEFT:
+		    if( this.cursorPos > 0 )
+			this.cursorPos--;
+		    break;
+		case PGUI_DIK_RIGHT:
+		    if( this.cursorPos < this.label.text.length() )
+			this.cursorPos++;
+		    break;
+		case PGUI_DIK_ESCAPE:
+		    this.focus = false;
+		    break;
+		default:
+		    if( this.maxLength > 0 && this.maxLength > this.label.text.length() )
+			break;
+		    if( this.onlyNumbers && (key < PGUI_DIK_1 || key > PGUI_DIK_0) )
+			break;
+		    this.AddChar( keyString );
+		    break;
+	    }
+	    this.RefreshData();
+
+	    return( true );
+	}
+	
+	return( PGUIElement::KeyDown( key, keyString ));
+    }
+
+    void Draw() override
+    {
+	uint tick = GetTick();
+
+	if( tick - this.cursorChanged > this.cursorTime )
+	{
+	    this.cursorChanged = tick;
+	    if( this.focus )
+	    {
+		this.cursor = this.cursorList.first();
+		this.cursorList.removeFirst();
+		this.cursorList.insertLast( this.cursor );
+	    }
+	    else
+		this.cursor = "";
+
+	    this.RefreshData();
+	}
+
+	DrawText( this.drawText, this.label.Left, this.label.Top, this.Width, this.Height, this.label.Color, this.label.Font, this.label.Flags );
+
+	PGUIElement::Draw();
+    }
+
+    void RefreshData() final
+    {
+	if( this.cursorPos == this.label.text.length() )
+	    this.drawText = this.label.text + this.cursor;
+	else
+	    this.drawText = substring( this.label.text, 0, this.cursorPos ) +
+			    this.cursor +
+			    substring( this.label.text, this.cursorPos, this.label.text.length() - this.cursorPos );
+    }
+
+    void AddChar( string& char )
+    {
+	if( char.length() == 0 )
+	    return;
+
+	char.resize( 1 );
+	this.label.text += char;
+	this.cursorPos++;
+    }
+}; // PGUITextBox
+
 class PGUI
 {
     bool active;

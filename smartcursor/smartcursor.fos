@@ -46,7 +46,7 @@ class SmartCursor
  * SETUP *
  *********/
 
-    void DrawInfo( bool enable, bool toolName = true, int offsetX = 2, int offsetY = -12, uint color = 0, int font = FONT_FALLOUT, int flags = FT_ALIGN | FT_BORDERED )
+    void DrawInfo( bool enable, bool toolName = true, int offsetX = 2, int offsetY = -12, uint color = 0, int font = FONT_FALLOUT, int flags = FT_BORDERED )
     {
 	this.drawInfo = enable;
 	this.drawInfoTool = toolName;
