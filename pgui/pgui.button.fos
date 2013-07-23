@@ -1,0 +1,105 @@
+//
+// PGUI
+// Primitive GUI for FOnline based games
+// Wipe/Rotators
+//
+
+#ifndef __PGUI_BUTTON__
+#define __PGUI_BUTTON__
+
+#include "pgui.fos"
+
+class PGUIButton : PGUIElement
+{
+    PGUISprite@ picUp;
+    PGUISprite@ picDown;
+    PGUISprite@ picOff;
+
+    bool toggleMode;
+    bool off;
+    bool draw;
+
+    PGUIButton( uint width, uint height )
+    {
+	super();
+	this.PGUIButtonInit();
+
+	this.Width = width;
+	this.Height = height;
+	this.draw = true;
+    }
+
+    PGUIButton( PGUISprite@ spriteUp, PGUISprite@ spriteDown )
+    {
+	super();
+	this.PGUIButtonInit();
+
+	if( valid(spriteUp) )
+	{
+	    @this.picUp = spriteUp;
+	    @this.picUp.parent = this;
+	}
+
+	if( valid(spriteDown) )
+	{
+	    @this.picDown = spriteDown;
+	    @this.picDown.parent = this;
+	}
+	this.draw = false;
+    }
+
+    private void PGUIButtonInit() final
+    {
+	this.active = true;
+
+	this.toggleMode = false;
+    }
+
+    void Click() override
+    {
+	if( this.toggleMode )
+	    this.off = !this.off;
+    }
+
+    void Draw() override
+    {
+	if( this.toggleMode && !this.mousePressed && this.off )
+	{
+	    if( this.draw )
+	    {
+		this.DrawBackground( PGUI_RGBAi(100,100,100,100) );
+		this.DrawFrame( PGUI_RGBi(100,100,100) );
+	    }
+	    else if( !this.draw && valid(this.picOff) )
+		this.picOff.Draw();
+	}
+	else
+	{
+	    if( !this.mousePressed )
+	    {
+		if( this.draw )
+		{
+		    this.DrawBackground( PGUI_RGBAi(0,255,0,125) );
+		    this.DrawFrame( PGUI_RGBi(0,255,0) );
+		}
+		else if( !this.draw && valid(this.picUp) )
+		    this.picUp.Draw();
+	    }
+	    else
+	    {
+		if( this.draw )
+		{
+		    this.DrawBackground( PGUI_RGBAi(0,255,0,170) );
+		    this.DrawFrame( PGUI_RGBi(0,255,0) );
+		}
+		else if( !this.draw && valid(this.picDown) )
+		    this.picDown.Draw();
+	    }
+	}
+
+	PGUIElement::Draw();
+    }
+};
+
+#endif // __PGUI_BUTTON__ //
+

@@ -1,0 +1,437 @@
+//
+// PGUI
+// Primitive GUI for FOnline based games
+// Wipe/Rotators
+//
+
+#ifndef __PGUI_ELEMENT__
+#define __PGUI_ELEMENT__
+
+#include "pgui.fos"
+
+class PGUIElement
+{
+    PGUIElement@ parent;
+    array<PGUIElement@> elements;
+
+    bool active;
+    private int width, height, left, top;
+    private bool visible, focus;
+    private int mouseX, mouseY;
+    private bool mousePressed;
+    private int8 mouseClick;
+    //
+    // Constructors
+    //
+    PGUIElement()
+    {
+	this.PGUIElementInit();
+    }
+
+    PGUIElement( int left, int top, int width, int height )
+    {
+	this.PGUIElementInit();
+
+	this.left   = left;
+	this.top    = top;
+	this.width  = width;
+	this.height = height;
+    }
+
+    void PGUIElementInit() final
+    {
+	@this.parent = null;
+	elements.resize(0);
+
+	this.left = this.top = this.width = this.height = 0;
+	this.visible = this.active = true;
+	this.focus  = false;
+    }
+    //
+    // getters/setters
+    // for real, we need only get_Left() and get_Top(), everything else is just for the consistency :)
+    //
+    int get_Left()
+    {
+	if( valid(this.parent) )
+	    return( this.parent.Left + this.left );
+	else
+	    return( this.left );
+    }
+
+    void set_Left( int left )
+    {
+	this.left = left;
+    }
+
+    int get_Right()
+    {
+	return( this.left + this.width );
+    }
+
+    int get_Top()
+    {
+	if( valid(this.parent) )
+	    return( this.parent.Top + this.top );
+	else
+	    return( this.top );
+    }
+
+    void set_Top( int top )
+    {
+	this.top = top;
+    }
+
+    int get_Bottom()
+    {
+	return( this.top + this.height );
+    }
+
+    int get_Width()
+    {
+	return( this.width );
+    }
+
+    void set_Width( int width )
+    {
+	this.width = width;
+    }
+
+    int get_Height()
+    {
+	return( this.height );
+    }
+
+    void set_Height( int height )
+    {
+	this.height = height;
+    }
+    //
+    // utils
+    //
+    void Position( int left, int top )
+    {
+	this.left = left;
+	this.top = top;
+    }
+
+    void Center()
+    {
+	this.CenterX();
+	this.CenterY();
+    }
+
+    void CenterX()
+    {
+	int w = __ScreenWidth;
+
+	if( valid(this.parent) )
+	    w = this.parent.Width;
+
+	this.Left = w/2 - this.Width/2;
+    }
+
+    void CenterY()
+    {
+	int h = __ScreenHeight;
+
+	if( valid(this.parent) )
+	    h = this.parent.Height;
+
+	this.Top = h/2 - this.Height/2;
+    }
+
+    void Size( int width, int height )
+    {
+	this.width = width;
+	this.height = height;
+    }
+
+    void AutoSize()
+    {
+	this.AutoSize( this.elements );
+    }
+
+    void AutoSize( array<PGUIElement@>& elementsList )
+    {
+	int w = 0, h = 0;
+
+	for( uint e=0, eLen=elementsList.length(); e<eLen; e++ )
+	{
+	    PGUIElement@ element = elementsList[e];
+
+	    if( !valid(element) )
+		continue;
+
+	    if( element.Width > w )
+		w = element.Width;
+	    if( element.Height > h )
+		h = element.Height;
+	}
+
+	this.Size( w, h );
+    }
+
+    bool IsInside( int x, int y )
+    {
+	return( (x>=this.Left) && (x<this.Right) && (y>=this.Top) && (y<this.Bottom) );
+    }
+    //
+    // keyboard
+    //
+    bool KeyDown( uint8 key, string& keyString )
+    {
+	bool isPress = false;
+	for( uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible && element.active )
+		isPress = element.KeyDown( key, keyString ) ? true : isPress;
+	}
+
+	return( isPress );
+    }
+
+    bool KeyUp( uint8 key, string& keyString )
+    {
+	bool isPress = false;
+	for( uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible && element.active )
+		isPress = element.KeyUp( key, keyString ) ? true : isPress;
+	}
+
+	return( isPress );
+    }
+    //
+    // mouse
+    //
+    void Click()
+    {
+    }
+
+    bool MouseDown( int click, int x, int y )
+    {
+	if( !this.visible )
+	    return( false );
+
+	bool isClick = false;
+	for(uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+	{
+	    isClick = this.elements[e].MouseDown( x, y, click ) ? true : isClick;
+	}
+
+	if( this.active && !isClick && click != PGUI_CLICK_WHEEL_DOWN && click != PGUI_CLICK_WHEEL_UP )
+	{
+	    bool inside = this.IsInside( x, y );
+
+	    this.mousePressed = inside;
+	    this.mouseClick = inside ? click : -1;
+	    this.mouseX = inside ? x : -1;
+	    this.mouseY = inside ? y : -1;
+
+	    isClick = inside;
+	}
+
+	this.focus = isClick;
+
+	return( isClick );
+    }
+
+    bool MouseUp( int click, int x, int y )
+    {
+	if( !this.visible )
+	    return( false );
+
+	bool isClick = false;
+	if( this.active && this.IsInside( x, y ))
+	{
+	    this.Click();
+	    isClick = true;
+	}
+
+	this.mousePressed = false;
+	this.mouseClick = -1;
+	this.mouseX = -1;
+	this.mouseY = -1;
+
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    isClick = this.elements[e].MouseUp( x, y, click ) ? true : isClick;
+	}
+
+	return( isClick );
+    }
+
+    void MouseMove( int fromX, int fromY, int toX, int toY )
+    {
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible && element.active )
+		element.MouseMove( fromX, fromY, toX, toY );
+	}
+    }
+    //
+    // drawing
+    //
+    void Draw()
+    {
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    PGUIElement@ element = this.elements[e];
+
+	    if( element.visible )
+		element.Draw();
+	}
+    }
+
+    void DrawFrame( int color = 0 )
+    {
+	if( (this.Left == this.Right) && (this.Top == this.Bottom) )
+		return;
+
+	if( color == 0 )
+		color = int(PGUI_RGB(0,255,0));
+
+	array<int> frame;
+
+	// left
+
+	frame.resize(0);
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Top );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Left+1 );
+	frame.insertLast( this.Bottom+1 );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left+1 );
+	frame.insertLast( this.Top+1 );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+
+	// top
+
+	frame.resize(0);
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Top );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Top );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Top+1 );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Top+1 );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+
+	// right
+
+	frame.resize(0);
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Top );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Right-1 );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right-1 );
+	frame.insertLast( this.Top );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+
+	// bottom
+
+	frame.resize(0);
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Bottom );
+	frame.insertLast( color  );
+
+	frame.insertLast( this.Left );
+	frame.insertLast( this.Bottom-1 );
+	frame.insertLast( color );
+
+	frame.insertLast( this.Right );
+	frame.insertLast( this.Bottom-1 );
+	frame.insertLast( color  );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
+    }
+
+    void DrawBackground( int color = 0 )
+    {
+	if( (this.Left == this.Right) && (this.Top == this.Bottom) )
+		return;
+
+	if( color == 0 )
+		color = PGUI_RGBi(0,255,0);
+
+	array<int> background;
+
+	background.insertLast( this.Left );
+	background.insertLast( this.Top );
+	background.insertLast( color );
+
+	background.insertLast( this.Left );
+	background.insertLast( this.Bottom );
+	background.insertLast( color );
+
+	background.insertLast( this.Right );
+	background.insertLast( this.Bottom );
+	background.insertLast( color );
+
+	background.insertLast( this.Right );
+	background.insertLast( this.Top );
+	background.insertLast( color );
+
+	DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, background );
+    }
+
+    void Update()
+    {
+	for( uint e=0, elementsLen=this.elements.length(); e<elementsLen; e++ )
+	{
+	    this.elements[e].Update();
+	}
+    }
+
+    void AddElement( PGUIElement& element, bool setParent = true )
+    {
+	if( setParent )
+	    @element.parent = this;
+	this.elements.insertLast( element );
+    }
+};
+
+#endif // __PGUI_ELEMENT__ //

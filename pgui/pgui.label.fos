@@ -1,0 +1,54 @@
+//
+// PGUI
+// Primitive GUI for FOnline based games
+// Wipe/Rotators
+//
+
+#ifndef __PGUI_LABEL__
+#define __PGUI_LABEL__
+
+#include "pgui.fos"
+
+class PGUILabel : PGUIElement
+{
+    string text;
+    uint color;
+    int font;
+    int flags;
+
+    PGUILabel()
+    {
+	super();
+	this.PGUILabelInit( "", PGUI_RGB(0,255,0), PGUI_FONT_FALLOUT, 0 );
+    }
+
+    PGUILabel( string& text )
+    {
+	this.PGUILabelInit( text, PGUI_RGB(0,255,0), PGUI_FONT_FALLOUT, 0 );
+    }
+
+    PGUILabel( string& text, uint color, int font, int flags )
+    {
+	this.PGUILabelInit( text, color, font, flags );
+    }
+
+    private void PGUILabelInit( string& text, uint color, int font, int flags ) final
+    {
+	this.active = false;
+
+	this.text = text;
+	this.color = color;
+	this.font = font;
+	this.flags = flags;
+    }
+
+    void Draw() override
+    {
+	if( this.text.length() > 0 )
+	    DrawText( this.text, this.Left, this.Top, this.Width, this.Height, this.color, this.font, this.flags );
+
+	PGUIElement::Draw();
+    }
+};
+
+#endif // __PGUI_LABEL__ //

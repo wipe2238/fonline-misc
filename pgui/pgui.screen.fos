@@ -1,0 +1,79 @@
+//
+// PGUI
+// Primitive GUI for FOnline based games
+// Wipe/Rotators
+//
+
+#ifndef __PGUI_SCREEN__
+#define __PGUI_SCREEN__
+
+#include "pgui.fos"
+
+class PGUIScreen : PGUIElement
+{
+    uint ID, Layer;
+    bool canMove;
+    bool ignoreBorders;
+    bool drawFrame, drawBackground;
+
+    PGUIScreen( uint layer )
+    {
+	super();
+	this.PGUIScreenInit( layer );
+    }
+
+    private void PGUIScreenInit( uint layer ) final
+    {
+	this.ID = 0;
+	this.Layer = layer;
+	this.ignoreBorders = false;
+	this.canMove = this.drawFrame = this.drawBackground = true;
+    }
+
+    void MouseMove( int fromX, int fromY, int toX, int toY ) override
+    {
+	if( this.mousePressed && this.mouseClick == PGUI_CLICK_LEFT )
+	{
+	    int lastX = this.mouseX;
+	    int lastY = this.mouseY;
+	    int offX = toX - fromX;
+	    int offY = toY - fromY;
+
+	    this.Left = this.Left + offX;
+	    this.Top  = this.Top  + offY;
+
+	    if( !this.ignoreBorders )
+	    {
+		if( this.Left + offX < 0 )
+		    this.Left = 0;
+		if( this.Top + offY < 0 )
+		    this.Top = 0;
+		if( this.Right > __ScreenWidth )
+		    this.Left = __ScreenWidth - this.Width;
+		if( this.Bottom > __ScreenHeight )
+		    this.Top = __ScreenHeight - this.Height;
+	    }
+
+	    PGUIElement::MouseMove( fromX, fromY, toX, toY );
+	}
+    }
+    void Update() override
+    {
+    }
+
+    //
+    // drawing
+    //
+    void Draw() override
+    {
+	if( this.drawBackground )
+	    this.DrawBackground( PGUI_RGBAi(0,255,0,100) );
+	if( this.drawFrame )
+	    this.DrawFrame( PGUI_RGBi(0,255,0) );
+
+	PGUIElement::Draw();
+    }
+};
+
+#endif // __PGUI_SCREEN__ //
+
