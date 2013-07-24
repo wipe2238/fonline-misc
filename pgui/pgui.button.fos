@@ -21,83 +21,83 @@ class PGUIButton : PGUIElement
 
     PGUIButton( uint width, uint height )
     {
-	super();
-	this.PGUIButtonInit();
+        super();
+        this.PGUIButtonInit();
 
-	this.Width = width;
-	this.Height = height;
-	this.draw = true;
+        this.Width = width;
+        this.Height = height;
+        this.draw = true;
     }
 
     PGUIButton( PGUISprite@ spriteUp, PGUISprite@ spriteDown )
     {
-	super();
-	this.PGUIButtonInit();
+        super();
+        this.PGUIButtonInit();
 
-	if( valid(spriteUp) )
-	{
-	    @this.picUp = spriteUp;
-	    @this.picUp.parent = this;
-	}
+        if( valid(spriteUp) )
+        {
+            @this.picUp = spriteUp;
+            @this.picUp.parent = this;
+        }
 
-	if( valid(spriteDown) )
-	{
-	    @this.picDown = spriteDown;
-	    @this.picDown.parent = this;
-	}
-	this.draw = false;
+        if( valid(spriteDown) )
+        {
+            @this.picDown = spriteDown;
+            @this.picDown.parent = this;
+        }
+        this.draw = false;
     }
 
     private void PGUIButtonInit() final
     {
-	this.active = true;
+        this.active = true;
 
-	this.toggleMode = false;
+        this.toggleMode = false;
     }
 
     void Click() override
     {
-	if( this.toggleMode )
-	    this.off = !this.off;
+        if( this.toggleMode )
+            this.off = !this.off;
     }
 
     void Draw() override
     {
-	if( this.toggleMode && !this.mousePressed && this.off )
-	{
-	    if( this.draw )
-	    {
-		this.DrawBackground( PGUI_RGBAi(100,100,100,100) );
-		this.DrawFrame( PGUI_RGBi(100,100,100) );
-	    }
-	    else if( !this.draw && valid(this.picOff) )
-		this.picOff.Draw();
-	}
-	else
-	{
-	    if( !this.mousePressed )
-	    {
-		if( this.draw )
-		{
-		    this.DrawBackground( PGUI_RGBAi(0,255,0,125) );
-		    this.DrawFrame( PGUI_RGBi(0,255,0) );
-		}
-		else if( !this.draw && valid(this.picUp) )
-		    this.picUp.Draw();
-	    }
-	    else
-	    {
-		if( this.draw )
-		{
-		    this.DrawBackground( PGUI_RGBAi(0,255,0,170) );
-		    this.DrawFrame( PGUI_RGBi(0,255,0) );
-		}
-		else if( !this.draw && valid(this.picDown) )
-		    this.picDown.Draw();
-	    }
-	}
+        if( this.toggleMode && !this.mousePressed && this.off )
+        {
+            if( this.draw )
+            {
+                this.DrawBackground( PGUI_RGBAi(100,100,100,100) );
+                this.DrawFrame( PGUI_RGBi(100,100,100) );
+            }
+            else if( !this.draw && valid(this.picOff) )
+                this.picOff.Draw();
+        }
+        else
+        {
+            if( !this.mousePressed )
+            {
+                if( this.draw )
+                {
+                    this.DrawBackground( PGUI_RGBAi(0,255,0,125) );
+                    this.DrawFrame( PGUI_RGBi(0,255,0) );
+                }
+                else if( !this.draw && valid(this.picUp) )
+                    this.picUp.Draw();
+            }
+            else
+            {
+                if( this.draw )
+                {
+                    this.DrawBackground( PGUI_RGBAi(0,255,0,170) );
+                    this.DrawFrame( PGUI_RGBi(0,255,0) );
+                }
+                else if( !this.draw && valid(this.picDown) )
+                    this.picDown.Draw();
+            }
+        }
 
-	PGUIElement::Draw();
+        PGUIElement::Draw();
     }
 };
 

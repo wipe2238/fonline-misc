@@ -14,50 +14,50 @@
 //
 // Own copy of used client defines, in case script is used in "abnormal" way
 //
-#define PGUI_RGB #(r,g,b)		(uint((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
-#define PGUI_RGBA #(r,g,b,a)		(uint(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
-#define PGUI_RGBi#(r,g,b)		(int((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
-#define PGUI_RGBAi#(r,g,b,a)		(int(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGB #(r,g,b)               (uint((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBA #(r,g,b,a)            (uint(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBi#(r,g,b)               (int((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBAi#(r,g,b,a)            (int(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
 
-#define PGUI_PRIMITIVE_POINTLIST	(0)
-#define PGUI_PRIMITIVE_LINELIST		(1)
-#define PGUI_PRIMITIVE_LINESTRIP	(2)
-#define PGUI_PRIMITIVE_TRIANGLELIST	(3)
-#define PGUI_PRIMITIVE_TRIANGLESTRIP	(4)
-#define PGUI_PRIMITIVE_TRIANGLEFAN	(5)
+#define PGUI_PRIMITIVE_POINTLIST        (0)
+#define PGUI_PRIMITIVE_LINELIST         (1)
+#define PGUI_PRIMITIVE_LINESTRIP        (2)
+#define PGUI_PRIMITIVE_TRIANGLELIST     (3)
+#define PGUI_PRIMITIVE_TRIANGLESTRIP    (4)
+#define PGUI_PRIMITIVE_TRIANGLEFAN      (5)
 
-#define PGUI_CLICK_LEFT			(0)
-#define PGUI_CLICK_RIGHT		(1)
-#define PGUI_CLICK_MIDDLE		(2)
-#define PGUI_CLICK_WHEEL_UP		(3)
-#define PGUI_CLICK_WHEEL_DOWN		(4)
-#define PGUI_CLICK_EXT0			(5)
-#define PGUI_CLICK_EXT1			(6)
-#define PGUI_CLICK_EXT2			(7)
-#define PGUI_CLICK_EXT3			(8)
-#define PGUI_CLICK_EXT4			(9)
+#define PGUI_CLICK_LEFT                 (0)
+#define PGUI_CLICK_RIGHT                (1)
+#define PGUI_CLICK_MIDDLE               (2)
+#define PGUI_CLICK_WHEEL_UP             (3)
+#define PGUI_CLICK_WHEEL_DOWN           (4)
+#define PGUI_CLICK_EXT0                 (5)
+#define PGUI_CLICK_EXT1                 (6)
+#define PGUI_CLICK_EXT2                 (7)
+#define PGUI_CLICK_EXT3                 (8)
+#define PGUI_CLICK_EXT4                 (9)
 
-#define PGUI_FONT_OLD_FO		(0)
-#define PGUI_FONT_NUM			(1)
-#define PGUI_FONT_BIG_NUM		(2)
-#define PGUI_FONT_SAND_NUM		(3)
-#define PGUI_FONT_SPECIAL		(4)
-#define PGUI_FONT_FALLOUT		(5)
-#define PGUI_FONT_THIN			(6)
-#define PGUI_FONT_FAT			(7)
-#define PGUI_FONT_BIG			(8)
+#define PGUI_FONT_OLD_FO                (0)
+#define PGUI_FONT_NUM                   (1)
+#define PGUI_FONT_BIG_NUM               (2)
+#define PGUI_FONT_SAND_NUM              (3)
+#define PGUI_FONT_SPECIAL               (4)
+#define PGUI_FONT_FALLOUT               (5)
+#define PGUI_FONT_THIN                  (6)
+#define PGUI_FONT_FAT                   (7)
+#define PGUI_FONT_BIG                   (8)
 
-#define PGUI_DIK_ESCAPE			(0x01)
-#define PGUI_DIK_1			(0x02)
-#define PGUI_DIK_0			(0x0B)
-#define PGUI_DIK_BACK			(0x0E)
-#define PGUI_DIK_HOME			(0xC7)
-#define PGUI_DIK_UP			(0xC8)
-#define PGUI_DIK_LEFT			(0xCB)
-#define PGUI_DIK_RIGHT			(0xCD)
-#define PGUI_DIK_END			(0xCF)
-#define PGUI_DIK_DOWN			(0xD0)
-#define PGUI_DIK_DELETE			(0xD3)
+#define PGUI_DIK_ESCAPE                 (0x01)
+#define PGUI_DIK_1                      (0x02)
+#define PGUI_DIK_0                      (0x0B)
+#define PGUI_DIK_BACK                   (0x0E)
+#define PGUI_DIK_HOME                   (0xC7)
+#define PGUI_DIK_UP                     (0xC8)
+#define PGUI_DIK_LEFT                   (0xCB)
+#define PGUI_DIK_RIGHT                  (0xCD)
+#define PGUI_DIK_END                    (0xCF)
+#define PGUI_DIK_DOWN                   (0xD0)
+#define PGUI_DIK_DELETE                 (0xD3)
 
 #include "pgui.element.fos"
 #include "pgui.screen.fos"
@@ -79,107 +79,107 @@ class PGUI
 
     PGUI()
     {
-	this.active = true;
+        this.active = true;
 
-	this.allScreens.resize(0);
-	this.activeScreens.resize(0);
+        this.allScreens.resize(0);
+        this.activeScreens.resize(0);
 
-	this.keyPressed.resize(0);
+        this.keyPressed.resize(0);
     }
     //
     // keyboard
     //
     bool KeyDown( uint8 key, string& keyString )
     {
-	if( !this.active )
-	    return( false );
+        if( !this.active )
+            return( false );
 
-	if( this.keyPressed.find( key ) < 0 )
-	    this.keyPressed.insertLast( key );
+        if( this.keyPressed.find( key ) < 0 )
+            this.keyPressed.insertLast( key );
 
-	if( this.activeScreens.length() > 0 )
-	{
-	    if( this.activeScreens.last().KeyDown( key, keyString ))
-		return( true );
-	}
+        if( this.activeScreens.length() > 0 )
+        {
+            if( this.activeScreens.last().KeyDown( key, keyString ))
+                return( true );
+        }
 
-	return( false );
+        return( false );
     }
 
     bool KeyUp( uint8 key, string& keyString )
     {
-	if( !this.active )
-	    return( false );
+        if( !this.active )
+            return( false );
 
-	int idx = this.keyPressed.find( key );
-	if( idx >= 0 )
-	    this.keyPressed.removeAt( idx );
+        int idx = this.keyPressed.find( key );
+        if( idx >= 0 )
+            this.keyPressed.removeAt( idx );
 
-	if( this.activeScreens.length() > 0 )
-	{
-	    if( this.activeScreens.last().KeyUp( key, keyString ))
-		return( true );
-	}
+        if( this.activeScreens.length() > 0 )
+        {
+            if( this.activeScreens.last().KeyUp( key, keyString ))
+                return( true );
+        }
 
-	return( false );
+        return( false );
     }
     //
     // mouse
     //
     bool MouseDown( int click, int x = __MouseX, int y = __MouseY )
     {
-	if( !this.active )
-	    return( false );
+        if( !this.active )
+            return( false );
 
-	uint screensLen = this.activeScreens.length();
-	if( screensLen == 0 )
-	    return( false );
+        uint screensLen = this.activeScreens.length();
+        if( screensLen == 0 )
+            return( false );
 
-	bool found = false, result = false;
-	for( int s=screensLen-1; s>=0; s-- )
-	{
-	    PGUIScreen@ screen = this.activeScreens[s];
+        bool found = false, result = false;
+        for( int s=screensLen-1; s>=0; s-- )
+        {
+            PGUIScreen@ screen = this.activeScreens[s];
 
-	    if( !screen.IsInside( x, y ))
-		continue;
+            if( !screen.IsInside( x, y ))
+                continue;
 
-	    if( screen.MouseDown( click, x, y ))
-	    {
-		this.activeScreens.removeAt(s);
-		this.activeScreens.insertLast( screen );
-		return( true );
-	    }
-	}
+            if( screen.MouseDown( click, x, y ))
+            {
+                this.activeScreens.removeAt(s);
+                this.activeScreens.insertLast( screen );
+                return( true );
+            }
+        }
 
-	return( false );
+        return( false );
     }
 
     bool MouseUp( int click, int x = __MouseX, int y = __MouseY )
     {
-	if( !this.active )
-	    return( false );
+        if( !this.active )
+            return( false );
 
-	uint screensLen = this.activeScreens.length();
-	if( screensLen == 0 )
-	{
-	    return( false );
-	}
+        uint screensLen = this.activeScreens.length();
+        if( screensLen == 0 )
+        {
+            return( false );
+        }
 
-	bool found = false;
-	for( int s=screensLen-1; s>=0; s-- )
-	{
-	    found = this.activeScreens[s].MouseUp( click, x, y ) ? true : found;
-	}
+        bool found = false;
+        for( int s=screensLen-1; s>=0; s-- )
+        {
+            found = this.activeScreens[s].MouseUp( click, x, y ) ? true : found;
+        }
 
-	return( found );
+        return( found );
     }
 
     void MouseMove( int fromX, int fromY, int toX = __MouseX, int toY = __MouseY )
     {
-	if( this.activeScreens.length() != 0 )
-	{
-	    this.activeScreens.last().MouseMove( fromX, fromY, toX, toY );
-	}
+        if( this.activeScreens.length() != 0 )
+        {
+            this.activeScreens.last().MouseMove( fromX, fromY, toX, toY );
+        }
     }
 
     //
@@ -187,29 +187,29 @@ class PGUI
     //
     void Draw( uint layer )
     {
-	if( !this.active )
-	    return;
+        if( !this.active )
+            return;
 
-	for( uint s=0, sLen=activeScreens.length(); s<sLen; s++ )
-	{
-	    PGUIScreen@ screen= activeScreens[s];
+        for( uint s=0, sLen=activeScreens.length(); s<sLen; s++ )
+        {
+            PGUIScreen@ screen= activeScreens[s];
 
-	    if( screen.Layer != layer )
-		continue;
+            if( screen.Layer != layer )
+                continue;
 
-	    screen.Draw();
-	}
+            screen.Draw();
+        }
     }
 
     void Update()
     {
-	if( !this.active )
-	    return;
+        if( !this.active )
+            return;
 
-	for( uint s=0, sLen=activeScreens.length(); s<sLen; s++ )
-	{
-	    this.activeScreens[s].Update();
-	}
+        for( uint s=0, sLen=activeScreens.length(); s<sLen; s++ )
+        {
+            this.activeScreens[s].Update();
+        }
     }
 
     //
@@ -217,55 +217,55 @@ class PGUI
     //
     bool AddScreen( uint id, PGUIScreen& screen )
     {
-	if( !IsScreen( id ) && !IsActiveScreen( id ))
-	{
-	    screen.ID = id;
-	    this.allScreens.insertLast( screen );
-	    return( true );
-	}
+        if( !IsScreen( id ) && !IsActiveScreen( id ))
+        {
+            screen.ID = id;
+            this.allScreens.insertLast( screen );
+            return( true );
+        }
 
-	return( false );
+        return( false );
     }
 
     bool IsScreen( uint id )
     {
-	for( uint s=0, sLen=this.allScreens.length(); s<sLen; s++ )
-	{
-	    if( this.allScreens[s].ID == id )
-		return( true );
-	}
+        for( uint s=0, sLen=this.allScreens.length(); s<sLen; s++ )
+        {
+            if( this.allScreens[s].ID == id )
+                return( true );
+        }
 
-	return( false );
+        return( false );
     }
 
     bool IsActiveScreen( uint id )
     {
-	for( uint s=0, sLen=this.activeScreens.length(); s<sLen; s++ )
-	{
-	    if( this.activeScreens[s].ID == id )
-		return( true );
-	}
+        for( uint s=0, sLen=this.activeScreens.length(); s<sLen; s++ )
+        {
+            if( this.activeScreens[s].ID == id )
+                return( true );
+        }
 
-	return( false );
+        return( false );
     }
 
     bool ShowScreen( uint id )
     {
-	if( !this.IsActiveScreen( id ) && this.IsScreen( id ))
-	{
-	    for( uint s=0, sLen=this.allScreens.length(); s<sLen; s++ )
-	    {
-		PGUIScreen@ screen = this.allScreens[s];
+        if( !this.IsActiveScreen( id ) && this.IsScreen( id ))
+        {
+            for( uint s=0, sLen=this.allScreens.length(); s<sLen; s++ )
+            {
+                PGUIScreen@ screen = this.allScreens[s];
 
-		if( screen.ID == id )
-		{
-		    this.activeScreens.insertLast( screen );
-		    return( true );
-		}
-	    }
-	}
+                if( screen.ID == id )
+                {
+                    this.activeScreens.insertLast( screen );
+                    return( true );
+                }
+            }
+        }
 
-	return( false );
+        return( false );
     }
 }; // PGUI
 

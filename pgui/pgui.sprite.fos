@@ -18,84 +18,84 @@ class PGUISprite : PGUIElement
 
     PGUISprite()
     {
-	super();
-	this.PGUISpriteInit();
+        super();
+        this.PGUISpriteInit();
 
-	this.Unload();
+        this.Unload();
     }
 
     PGUISprite( string& filename, int path )
     {
-	super();
-	this.PGUISpriteInit();
+        super();
+        this.PGUISpriteInit();
 
-	this.LoadFile( filename, path );
+        this.LoadFile( filename, path );
     }
 
     PGUISprite( uint nameHash, uint8 dir )
     {
-	super();
-	this.PGUISpriteInit();
+        super();
+        this.PGUISpriteInit();
 
-	this.LoadHash( nameHash, dir );
+        this.LoadHash( nameHash, dir );
     }
 
     private void PGUISpriteInit() final
     {
-	this.active = false;
-	this.id = this.frameCount = this.color = 0;
+        this.active = false;
+        this.id = this.frameCount = this.color = 0;
     }
 
     bool LoadFile( string& filename, int path )
     {
-	if( filename.length() > 0 )
-	{
-	    this.id = LoadSprite( filename, path );
-	    this.filename = filename;
-	}
-	else
-	    this.id = 0;
+        if( filename.length() > 0 )
+        {
+            this.id = LoadSprite( filename, path );
+            this.filename = filename;
+        }
+        else
+            this.id = 0;
 
-	this.RefreshData();
+        this.RefreshData();
 
-	return( this.id > 0 );
+        return( this.id > 0 );
     }
 
     bool LoadHash( uint nameHash, uint8 dir )
     {
-	this.id = LoadSprite( nameHash, dir );
+        this.id = LoadSprite( nameHash, dir );
 
-	this.RefreshData();
-	return( this.id > 0 );
+        this.RefreshData();
+        return( this.id > 0 );
     }
 
     void RefreshData() final
     {
-	if( this.id > 0 )
-	{
-	    this.width = GetSpriteWidth( this.id, 0 );
-	    this.height = GetSpriteHeight( this.id, 0 );
-	    this.frameCount = GetSpriteCount( this.id );
-	}
-	else
-	{
-	    this.width = this.height = this.frameCount = 0;
-	    this.filename = "";
-	}
+        if( this.id > 0 )
+        {
+            this.width = GetSpriteWidth( this.id, 0 );
+            this.height = GetSpriteHeight( this.id, 0 );
+            this.frameCount = GetSpriteCount( this.id );
+        }
+        else
+        {
+            this.width = this.height = this.frameCount = 0;
+            this.filename = "";
+        }
     }
 
     void Unload()
     {
-	this.id = 0;
-	this.RefreshData();
+        this.id = 0;
+        this.RefreshData();
     }
 
     void Draw() override
     {
-	if( this.visible && this.id > 0 )
-	    DrawSprite( this.id, -1, this.Left, this.Top, this.Width, this.Height, false, false, this.color );
+        if( this.visible && this.id > 0 )
+            DrawSprite( this.id, -1, this.Left, this.Top, this.Width, this.Height, false, false, this.color );
 
-	PGUIElement::Draw();
+        PGUIElement::Draw();
     }
 };
 
