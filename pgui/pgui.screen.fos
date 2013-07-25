@@ -14,21 +14,37 @@ class PGUIScreen : PGUIElement
     uint ID, Layer;
     bool canMove;
     bool ignoreBorders;
+
     bool drawFrame, drawBackground;
+    int colorFrame, colorBackground;
 
     PGUIScreen( uint layer )
     {
         super();
-        this.PGUIScreenInit( layer );
+        this.PGUIScreenInit( 0, 0, layer );
     }
 
-    private void PGUIScreenInit( uint layer ) final
+    PGUIScreen( uint width, uint height, uint layer )
+    {
+        super();
+        this.PGUIScreenInit( width, height, layer );
+    }
+
+    private void PGUIScreenInit( uint width, uint height, uint layer ) final
     {
         this.ID = 0;
         this.Layer = layer;
         this.ignoreBorders = false;
+        this.Width = width;
+        this.Height = height;
         this.canMove = this.drawFrame = this.drawBackground = true;
+        this.colorFrame = PGUI_RGBi(0,255,0);
+        this.colorBackground = PGUI_RGBAi(0,255,0,100);
     }
+
+    //
+    // PGUIElement overrides
+    //
 
     void MouseMove( int fromX, int fromY, int toX, int toY ) override
     {
@@ -57,19 +73,17 @@ class PGUIScreen : PGUIElement
             PGUIElement::MouseMove( fromX, fromY, toX, toY );
         }
     }
+
     void Update() override
     {
     }
 
-    //
-    // drawing
-    //
     void Draw() override
     {
         if( this.drawBackground )
-            this.DrawBackground( PGUI_RGBAi(0,255,0,100) );
+            this.DrawBackground( this.colorFrame );
         if( this.drawFrame )
-            this.DrawFrame( PGUI_RGBi(0,255,0) );
+            this.DrawFrame( this.colorBackground );
 
         PGUIElement::Draw();
     }
