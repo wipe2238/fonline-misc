@@ -227,7 +227,7 @@ class PGUIElement
         bool isClick = false;
         for(uint e=0, eLen=this.elements.length(); e<eLen; e++ )
         {
-            isClick = this.elements[e].MouseDown( x, y, click ) ? true : isClick;
+            isClick = this.elements[e].MouseDown( click, x, y ) ? true : isClick;
         }
 
         if( this.active && !isClick && click != PGUI_CLICK_WHEEL_DOWN && click != PGUI_CLICK_WHEEL_UP )
