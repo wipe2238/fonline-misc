@@ -66,7 +66,10 @@ class PGUIElement
 
     int get_Right()
     {
-        return( this.left + this.width );
+        if( valid(this.parent) )
+            return( this.parent.Left + this.left + this.width );
+        else
+            return( this.left + this.width );
     }
 
     int get_Top()
@@ -84,7 +87,10 @@ class PGUIElement
 
     int get_Bottom()
     {
-        return( this.top + this.height );
+        if( valid(this.parent) )
+            return( this.parent.Top + this.top + this.height );
+        else
+            return( this.top + this.height );
     }
 
     int get_Width()
