@@ -319,11 +319,11 @@ class PGUIElement
         frame.insertLast( color  );
 
         frame.insertLast( this.Left+1 );
-        frame.insertLast( this.Bottom+1 );
+        frame.insertLast( this.Bottom );
         frame.insertLast( color );
 
         frame.insertLast( this.Left+1 );
-        frame.insertLast( this.Top+1 );
+        frame.insertLast( this.Top );
         frame.insertLast( color  );
 
         DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, frame );
