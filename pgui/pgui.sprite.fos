@@ -24,6 +24,17 @@ class PGUISprite : PGUIElement
         this.Unload();
     }
 
+    PGUISprite( uint width, uint height )
+    {
+        super();
+        this.PGUISpriteInit();
+
+        this.Width = width;
+        this.Height = height;
+
+        this.Unload( true );
+    }
+
     PGUISprite( string& filename, int path )
     {
         super();
@@ -46,7 +57,7 @@ class PGUISprite : PGUIElement
         this.id = this.frameCount = this.color = 0;
     }
 
-    bool LoadFile( string& filename, int path )
+    bool LoadFile( string& filename, int path, bool keepSize = false )
     {
         if( filename.length() > 0 )
         {
@@ -56,39 +67,53 @@ class PGUISprite : PGUIElement
         else
             this.id = 0;
 
-        this.RefreshData();
+        this.RefreshData( keepSize );
 
         return( this.id > 0 );
     }
 
-    bool LoadHash( uint nameHash, uint8 dir )
+    bool LoadHash( uint nameHash, uint8 dir, bool keepSize = false )
     {
         this.id = LoadSprite( nameHash, dir );
 
-        this.RefreshData();
+        this.RefreshData( keepSize );
         return( this.id > 0 );
     }
 
-    void RefreshData() final
+    void RefreshData( bool keepSize = false ) final
     {
         if( this.id > 0 )
         {
-            this.width = GetSpriteWidth( this.id, 0 );
-            this.height = GetSpriteHeight( this.id, 0 );
+            if( !keepSize )
+            {
+                this.Width = GetSpriteWidth( this.id, 0 );
+                this.Height = GetSpriteHeight( this.id, 0 );
+            }
+
             this.frameCount = GetSpriteCount( this.id );
         }
         else
         {
-            this.width = this.height = this.frameCount = 0;
+            if( !keepSize )
+            {
+                this.Width = 0;
+                this.Height = 0;
+            }
+
+            this.frameCount = 0;
             this.filename = "";
         }
     }
 
-    void Unload()
+    void Unload( bool keepSize = false )
     {
         this.id = 0;
-        this.RefreshData();
+        this.RefreshData( keepSize );
     }
+
+    //
+    // PGUIElement overrides
+    //
 
     void Draw() override
     {
