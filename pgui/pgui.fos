@@ -14,10 +14,11 @@
 //
 // Own copy of used client defines, in case script is used in "abnormal" way
 //
-#define PGUI_RGB #(r,g,b)               (uint((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
-#define PGUI_RGBA #(r,g,b,a)            (uint(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
-#define PGUI_RGBi#(r,g,b)               (int((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
-#define PGUI_RGBAi#(r,g,b,a)            (int(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGB   #(r,g,b)             (uint((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBA  #(r,g,b,a)           (uint(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBi  #(r,g,b)             (int((0xFF<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_RGBAi #(r,g,b,a)           (int(((a)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define PGUI_CLAMP #(x,min,max)         (((x)>(max))?(max):(((x)<(min))?(min):(x)))
 
 #define PGUI_PRIMITIVE_POINTLIST        (0)
 #define PGUI_PRIMITIVE_LINELIST         (1)
@@ -66,6 +67,7 @@
 #include "pgui.sprite.fos"
 #include "pgui.button.fos"
 #include "pgui.textbox.fos"
+#include "pgui.listbox.fos"
 
 class PGUI
 {

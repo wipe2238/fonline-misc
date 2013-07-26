@@ -81,9 +81,9 @@ class PGUIScreen : PGUIElement
     void Draw() override
     {
         if( this.drawBackground )
-            this.DrawBackground( this.colorFrame );
+            this.DrawBackground( this.colorBackground );
         if( this.drawFrame )
-            this.DrawFrame( this.colorBackground );
+            this.DrawFrame( this.colorFrame );
 
         PGUIElement::Draw();
     }

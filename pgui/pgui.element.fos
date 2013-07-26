@@ -9,6 +9,11 @@
 
 #include "pgui.fos"
 
+//
+// PGUIElement
+//
+// Base of all other objects
+//
 class PGUIElement
 {
     PGUIElement@ parent;
@@ -26,6 +31,14 @@ class PGUIElement
     PGUIElement()
     {
         this.PGUIElementInit();
+    }
+
+    PGUIElement( int width, int height )
+    {
+        this.PGUIElementInit();
+
+        this.width  = width;
+        this.height = height;
     }
 
     PGUIElement( int left, int top, int width, int height )
