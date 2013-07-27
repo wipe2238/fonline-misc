@@ -58,7 +58,8 @@ class PGUIElement
 
         this.left = this.top = this.width = this.height = 0;
         this.visible = this.active = true;
-        this.focus  = false;
+        this.focus  = this.mousePressed = false;
+        this.mouseX = this.mouseY = this.mouseClick = -1;
     }
     //
     // getters/setters

@@ -56,7 +56,7 @@ class PGUIStaticScreen : PGUIScreen
         {
             PGUIElement@ element = this.elements[e];
 
-            if( element.visible && element.active && element.IsInside( x, y ))
+            if( element.visible && element.active )
             {
                 result = element.MouseUp( click, x, y ) ? true : result;
             }

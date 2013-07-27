@@ -52,7 +52,7 @@ class PGUIButton : PGUIElement
     {
         this.active = true;
 
-        this.toggleMode = false;
+        this.toggleMode = this.off = false;
     }
 
     void Click() override
