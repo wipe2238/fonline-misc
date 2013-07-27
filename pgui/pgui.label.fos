@@ -42,6 +42,23 @@ class PGUILabel : PGUIElement
         this.flags = flags;
     }
 
+
+    //
+    // PGUIElement oerrides
+    //
+
+    void AutoSize() override
+    {
+        int pw = valid(this.parent) ? this.parent.Width  : 0;
+        int ph = valid(this.parent) ? this.parent.Height : 0;
+
+        int tw = 0, th = 0, unused = 0;
+        GetTextInfo( this.text, pw, ph, this.font, this.flags, tw, th, unused );
+        this.Size( tw, th );
+
+        PGUIElement::AutoSize();
+    }
+
     void Draw() override
     {
         if( this.text.length() > 0 )
