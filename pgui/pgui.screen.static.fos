@@ -24,7 +24,7 @@ class PGUIStaticScreen : PGUIScreen
         this.PGUIStaticScreenInit();
     }
 
-    PGUIScreen( uint width, uint height, uint layer )
+    PGUIStaticScreen( uint width, uint height, uint layer )
     {
         super( width, height, layer );
         this.PGUIStaticScreenInit();

@@ -60,14 +60,17 @@
 #define PGUI_DIK_DOWN                   (0xD0)
 #define PGUI_DIK_DELETE                 (0xD3)
 
+// core elements
 #include "pgui.element.fos"
 #include "pgui.screen.fos"
 
-#include "pgui.label.fos"
-#include "pgui.sprite.fos"
+// additional elements
 #include "pgui.button.fos"
-#include "pgui.textbox.fos"
+#include "pgui.label.fos"
 #include "pgui.listbox.fos"
+#include "pgui.screen.static.fos"
+#include "pgui.sprite.fos"
+#include "pgui.textbox.fos"
 
 class PGUI
 {
