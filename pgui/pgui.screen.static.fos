@@ -1,0 +1,69 @@
+//
+// PGUI
+// Primitive GUI for FOnline based games
+// Wipe/Rotators
+//
+
+#ifndef __PGUI_SCREEN_STATIC__
+#define __PGUI_SCREEN_STATIC__
+
+#include "pgui.fos"
+
+//
+// PGUIStaticScreen
+//
+// Tiny PGUIScreen variation
+// Allows to create screen which won't catch mouse events on its own, but pass them to child elements only
+//
+
+class PGUIStaticScreen : PGUIScreen
+{
+    PGUIStaticScreen( uint layer )
+    {
+        super( layer );
+        this.PGUIStaticScreenInit();
+    }
+
+    PGUIScreen( uint width, uint height, uint layer )
+    {
+        super( width, height, layer );
+        this.PGUIStaticScreenInit();
+    }
+
+    private void PGUIStaticScreenInit() final
+    {
+        this.active = this.canMove = this.drawFrame = this.drawBackground = false;
+    }
+
+    //
+    // PGUIScreen overrides
+    //
+
+    void MouseMove( int fromX, int fromY, int toX, int toY ) override
+    {
+        PGUIElement::MouseMove( fromX, fromY, toX, toY );
+    }
+
+    //
+    // PGUIElement overrides
+    //
+
+    bool MouseUp( int click, int x, int y ) override
+    {
+        bool result = false;
+
+        for( uint e=0, eLen=this.elements.length(); e<eLen; e++ )
+        {
+            PGUIElement@ element = this.elements[e];
+
+            if( element.visible && element.active && element.IsInside( x, y ))
+            {
+                result = element.MouseUp( click, x, y ) ? true : result;
+            }
+        }
+
+        return( result );
+    }
+};
+
+#endif // __PGUI_SCREEN_STATIC__ //

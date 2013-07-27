@@ -19,9 +19,9 @@ class PGUIElement
     PGUIElement@ parent;
     array<PGUIElement@> elements;
 
-    bool active;
+    bool active, visible;
     private int width, height, left, top;
-    private bool visible, focus;
+    private bool focus;
     private int mouseX, mouseY;
     private bool mousePressed;
     private int8 mouseClick;

@@ -16,19 +16,9 @@ class PGUILabel : PGUIElement
     int font;
     int flags;
 
-    PGUILabel()
+    PGUILabel( string& text, uint color = PGUI_RGB(0,255,0), int font = PGUI_FONT_FALLOUT, int flags = 0 )
     {
         super();
-        this.PGUILabelInit( "", PGUI_RGB(0,255,0), PGUI_FONT_FALLOUT, 0 );
-    }
-
-    PGUILabel( string& text )
-    {
-        this.PGUILabelInit( text, PGUI_RGB(0,255,0), PGUI_FONT_FALLOUT, 0 );
-    }
-
-    PGUILabel( string& text, uint color, int font, int flags )
-    {
         this.PGUILabelInit( text, color, font, flags );
     }
 
@@ -42,7 +32,6 @@ class PGUILabel : PGUIElement
         this.flags = flags;
     }
 
-
     //
     // PGUIElement oerrides
     //
@@ -55,8 +44,6 @@ class PGUILabel : PGUIElement
         int tw = 0, th = 0, unused = 0;
         GetTextInfo( this.text, pw, ph, this.font, this.flags, tw, th, unused );
         this.Size( tw, th );
-
-        PGUIElement::AutoSize();
     }
 
     void Draw() override
