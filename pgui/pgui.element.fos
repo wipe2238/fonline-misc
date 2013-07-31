@@ -51,7 +51,7 @@ class PGUIElement
         this.height = height;
     }
 
-    void PGUIElementInit() final
+    private void PGUIElementInit() final
     {
         @this.parent = null;
         elements.resize(0);

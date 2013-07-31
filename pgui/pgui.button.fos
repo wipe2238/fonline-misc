@@ -19,6 +19,13 @@ class PGUIButton : PGUIElement
     bool off;
     bool draw;
 
+    int colorUpBackground;
+    int colorUpFrame;
+    int colorDownBackground;
+    int colorDownFrame;
+    int colorOffBackground;
+    int colorOffFrame;
+
     PGUIButton( uint width, uint height )
     {
         super();
@@ -53,6 +60,12 @@ class PGUIButton : PGUIElement
         this.active = true;
 
         this.toggleMode = this.off = false;
+
+        this.colorUpFrame = this.colorDownFrame = PGUI_RGBi(0,255,0);
+        this.colorUpBackground = PGUI_RGBAi(0,255,0,125);
+        this.colorDownBackground = PGUI_RGBAi(0,255,0,220);
+        this.colorOffBackground = PGUI_RGBAi(100,100,100,100);
+        this.colorOffFrame = PGUI_RGBi(100,100,100);
     }
 
     void Click() override
@@ -67,8 +80,8 @@ class PGUIButton : PGUIElement
         {
             if( this.draw )
             {
-                this.DrawBackground( PGUI_RGBAi(100,100,100,100) );
-                this.DrawFrame( PGUI_RGBi(100,100,100) );
+                this.DrawBackground( this.colorOffBackground );
+                this.DrawFrame( this.colorOffFrame );
             }
             else if( !this.draw && valid(this.picOff) )
                 this.picOff.Draw();
@@ -79,8 +92,8 @@ class PGUIButton : PGUIElement
             {
                 if( this.draw )
                 {
-                    this.DrawBackground( PGUI_RGBAi(0,255,0,125) );
-                    this.DrawFrame( PGUI_RGBi(0,255,0) );
+                    this.DrawBackground( this.colorUpBackground );
+                    this.DrawFrame( this.colorUpFrame );
                 }
                 else if( !this.draw && valid(this.picUp) )
                     this.picUp.Draw();
@@ -89,8 +102,8 @@ class PGUIButton : PGUIElement
             {
                 if( this.draw )
                 {
-                    this.DrawBackground( PGUI_RGBAi(0,255,0,170) );
-                    this.DrawFrame( PGUI_RGBi(0,255,0) );
+                    this.DrawBackground( this.colorDownBackground );
+                    this.DrawFrame( this.colorDownFrame );
                 }
                 else if( !this.draw && valid(this.picDown) )
                     this.picDown.Draw();

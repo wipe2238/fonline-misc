@@ -67,7 +67,7 @@
 // additional elements
 #include "pgui.button.fos"
 #include "pgui.label.fos"
-#include "pgui.listbox.fos"
+//#include "pgui.listbox.fos"
 #include "pgui.screen.static.fos"
 #include "pgui.sprite.fos"
 #include "pgui.textbox.fos"
