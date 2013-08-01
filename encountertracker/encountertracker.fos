@@ -1,0 +1,257 @@
+#ifndef __ENCOUNTERTRACKER__
+#define __ENCOUNTERTRACKER__
+
+//
+// EncounterInfo
+//
+// Single encounter type
+//
+class EncounterInfo
+{
+    uint TimeFound;
+    uint TimeVisited;
+    string Name;
+
+    EncounterInfo( string& name )
+    {
+        this.Name = name;
+        this.TimeFound = this.TimeVisited = __FullSecond;
+    }
+
+    void Save( array<string>& save, string& prefix )
+    {
+        save.insertLast( prefix+"|"+this.TimeFound+"|"+this.TimeVisited+"|"+this.Name );
+    }
+};
+
+//
+// EncounterZone
+//
+// Holds encounters spotted in given zone
+
+class EncounterZone
+{
+    uint8 X;
+    uint8 Y;
+    array<EncounterInfo@> encounters;
+
+    EncounterZone( uint zx, uint zy )
+    {
+        this.X = zx;
+        this.Y = zy;
+    }
+
+    EncounterInfo@ AddEncounter( string& name )
+    {
+        for( uint e=0, eLen=this.encounters.length(); e<eLen; e++ )
+        {
+            EncounterInfo@ encounter = this.encounters[e];
+
+            if( encounter.Name == name )
+            {
+                encounter.TimeVisited = __FullSecond;
+                return( encounter );
+            }
+        }
+
+        EncounterInfo@ info = EncounterInfo( name );
+        this.encounters.insertLast( info );
+
+        return( info );
+    }
+
+    void Save( array<string>& save )
+    {
+        for( uint e=0, eLen=this.encounters.length(); e<eLen; e++ )
+        {
+            this.encounters[e].Save( save, this.X+"|"+this.Y );
+        }
+    }
+};
+
+//
+// EncounterTracker
+//
+class EncounterTracker
+{
+    array<EncounterZone@> Zones;
+
+    private string config;
+
+    EncounterTracker( string& config )
+    {
+        this.Zones.resize( __GlobalMapWidth * __GlobalMapHeight );
+        for( uint z=0, zLen=this.Zones.length(); z<zLen; z++ )
+        {
+            @this.Zones[z] = EncounterZone( z % __GlobalMapWidth, z / __GlobalMapWidth );
+        }
+
+        this.config = config;
+        this.Load();
+    }
+
+    // Returns pointer to zone object
+    EncounterZone@ GetZone( uint zx, uint zy )
+    {
+        uint idx = zy * __GlobalMapWidth + zx;
+
+        if( idx >= this.Zones.length() )
+            return( null );
+
+        return( this.Zones[idx] );
+    }
+
+    // Returns pixels positions of zone borders
+    void GetZonePixels( uint zx, uint zy, int& px1, int& py1, int& px2, int& py2 ) // no zone validation
+    {
+        px1 = (zx++ * __GlobalMapZoneLength) / __GmapZoom + __GmapOffsetX;
+        px2 = (zx   * __GlobalMapZoneLength) / __GmapZoom + __GmapOffsetX;
+        py1 = (zy++ * __GlobalMapZoneLength) / __GmapZoom + __GmapOffsetY;
+        py2 = (zy   * __GlobalMapZoneLength) / __GmapZoom + __GmapOffsetY;
+    }
+
+    // Add encounter to current zone
+    // globalmap validation
+    EncounterInfo@ AddEncounter( string& name )
+    {
+        if( !__GmapActive )
+            return( null );
+
+        uint zx = __GmapGroupCurX / __GlobalMapZoneLength;
+        uint zy = __GmapGroupCurY / __GlobalMapZoneLength;
+
+        return( this.AddEncounter( zx, zy, name ));
+    }
+
+    // Add encounter to specified zone
+    // no globalmap validation
+    EncounterInfo@ AddEncounter( uint zx, uint zy, string& name )
+    {
+        EncounterZone@ zone = this.GetZone( zx, zy );
+        if( !valid(zone) )
+            return( null );
+
+        EncounterInfo@ info = zone.AddEncounter( name );
+
+        this.Save();
+
+        return( info );
+    }
+
+    void Load()
+    {
+        file f;
+        if( f.open( this.config, "r" ) >= 0 )
+        {
+            string rawContent = "";
+            f.readString( f.getSize(), rawContent );
+            f.close();
+
+            array<string@> content = splitEx( rawContent, "\n" );
+            for( uint l=0, len=content.length(); l<len; l++ )
+            {
+                string@ line = content[l];
+                array<string@> data = splitEx( line, "|" );
+                if( data.length() >= 5 )
+                {
+                    int zx=0, zy=0, td=0, tv=0;
+                    if( StrToInt( data[0], zx ) && StrToInt( data[1], zy ) && StrToInt( data[2], td ) && StrToInt( data[3], tv ))
+                    {
+                        EncounterZone@ zone = this.GetZone( zx, zy );
+                        if( valid(zone) )
+                        {
+                            EncounterInfo@ info = this.AddEncounter( zx, zy, data[4] );
+                            info.TimeFound = td;
+                            info.TimeVisited = tv;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void Save()
+    {
+        array<string> save;
+        for( uint z=0, zLen=this.Zones.length(); z<zLen; z++ )
+        {
+            this.Zones[z].Save( save );
+        }
+
+        if( save.length() == 0 )
+            return;
+
+        file f;
+        if( f.open( this.config, "w" ) >= 0 )
+        {
+            for( uint s=0, sLen=save.length(); s<sLen; s++ )
+            {
+                f.writeString( save[s]+"\n" );
+            }
+        }
+    }
+
+    void Draw( uint layer )
+    {
+        if( !valid(GetChosen()) || !__GmapActive || layer != 100 )
+        {
+            __HideCursor = false;
+            return;
+        }
+
+        // chosen pixel
+        int x = __GmapGroupCurX / __GmapZoom + __GmapOffsetX;
+        int y = __GmapGroupCurY / __GmapZoom + __GmapOffsetY;
+
+        // current zone
+        uint zx = __GmapGroupCurX / __GlobalMapZoneLength;
+        uint zy = __GmapGroupCurY / __GlobalMapZoneLength;
+
+        // coords under cursor
+        int mx = (__MouseX - __GmapOffsetX) * __GmapZoom;
+        int my = (__MouseY - __GmapOffsetY) * __GmapZoom;
+
+        // zone under cursor
+        uint mzx = mx / __GlobalMapZoneLength;
+        uint mzy = my / __GlobalMapZoneLength;
+
+        // fog under cursor
+        int mfog = (mzx < __GlobalMapWidth && mzy < __GlobalMapHeight ? GetFog( mzx, mzy ) : 0);
+
+        if( mfog == FOG_NONE )
+        {
+            EncounterZone@ zone = this.GetZone( mzx, mzy );
+            if( valid(zone) )
+            {
+                uint y = 50;
+                for( uint e=0, eLen=zone.encounters.length(); e<eLen; e++ )
+                {
+                    DrawText( zone.encounters[e].Name, __MouseX+30, __MouseY+y, __ScreenWidth, 10, 0, FONT_FALLOUT, 0 );
+                    y += 10;
+                }
+            }
+        }
+    }
+
+    void DrawZone( EncounterZone& zone, int color )
+    {
+        this.DrawZone( zone.X, zone.Y, color );
+    }
+
+    void DrawZone( uint zx, uint zy, int color )
+    {
+        int px1 = 0, px2 = 0, py1 = 0, py2 = 0;
+        this.GetZonePixels( zx, zy, px1, py1, px2, py2 );
+
+        array<int> zone =
+        {
+            px1, py1, color,
+            px2, py1, color,
+            px2, py2, color,
+            px1, py2, color,
+            px1, py1, color
+        };
+
+        DrawPrimitive( DRAW_PRIMITIVE_TRIANGLEFAN, zone );
+    }
+};
