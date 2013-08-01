@@ -255,3 +255,5 @@ class EncounterTracker
         DrawPrimitive( DRAW_PRIMITIVE_TRIANGLEFAN, zone );
     }
 };
+
+#endif // __ENCOUNTERTRACKER__ //
