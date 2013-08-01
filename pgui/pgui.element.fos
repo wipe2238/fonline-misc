@@ -417,23 +417,12 @@ class PGUIElement
         if( color == 0 )
                 color = PGUI_RGBi(0,255,0);
 
-        array<int> background;
-
-        background.insertLast( this.Left );
-        background.insertLast( this.Top );
-        background.insertLast( color );
-
-        background.insertLast( this.Left );
-        background.insertLast( this.Bottom );
-        background.insertLast( color );
-
-        background.insertLast( this.Right );
-        background.insertLast( this.Bottom );
-        background.insertLast( color );
-
-        background.insertLast( this.Right );
-        background.insertLast( this.Top );
-        background.insertLast( color );
+        array<int> background = {
+            this.Left,  this.Top,    color,
+            this.Left,  this.Bottom, color,
+            this.Right, this.Bottom, color,
+            this.Right, this.Top,    color
+        };
 
         DrawPrimitive( PGUI_PRIMITIVE_TRIANGLEFAN, background );
     }
