@@ -11,29 +11,57 @@
 
 class PGUIScreen : PGUIElement
 {
-    uint ID, Layer;
+    uint ID;
+    array<uint8> Layers;
+    uint8 CurrentLayer;
+
     bool canMove;
     bool ignoreBorders;
 
     bool drawFrame, drawBackground;
     int colorFrame, colorBackground;
 
-    PGUIScreen( uint layer )
+
+    PGUIScreen( uint8 layer )
     {
         super();
-        this.PGUIScreenInit( 0, 0, layer );
+        array<uint8> layers = { layer };
+        this.PGUIScreenInit( 0, 0, layers );
     }
 
-    PGUIScreen( uint width, uint height, uint layer )
+    PGUIScreen( array<uint8>& layers )
     {
         super();
-        this.PGUIScreenInit( width, height, layer );
+        this.PGUIScreenInit( 0, 0, layers );
     }
 
-    private void PGUIScreenInit( uint width, uint height, uint layer ) final
+    PGUIScreen( uint width, uint height, uint8 layer )
+    {
+        super();
+        array<uint8> layers = { layer };
+        this.PGUIScreenInit( width, height, layers );
+    }
+
+    PGUIScreen( uint width, uint height, array<uint8>& layers )
+    {
+        super();
+        this.PGUIScreenInit( width, height, layers );
+    }
+
+    private void PGUIScreenInit( uint width, uint height, array<uint8>& layers ) final
     {
         this.ID = 0;
-        this.Layer = layer;
+        this.Layers.resize(0);
+        this.CurrentLayer = 0;
+
+        for( uint l=0, len=layers.length(); l<len; l++ )
+        {
+            uint8 layer = layers[l];
+            if( this.Layers.find( layer ) < 0 )
+                this.Layers.insertLast( layer );
+        }
+        this.Layers.sortAsc();
+
         this.ignoreBorders = false;
         this.Width = width;
         this.Height = height;
@@ -76,6 +104,7 @@ class PGUIScreen : PGUIElement
 
     void Update() override
     {
+        PGUIElement::Update();
     }
 
     void Draw() override

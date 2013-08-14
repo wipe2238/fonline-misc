@@ -195,14 +195,25 @@ class PGUI
         if( !this.active )
             return;
 
+        if( layer >= uint8(-1) )
+            return;
+
         for( uint s=0, sLen=activeScreens.length(); s<sLen; s++ )
         {
             PGUIScreen@ screen= activeScreens[s];
 
-            if( screen.Layer != layer )
-                continue;
+            for( uint l=0, len=screen.Layers.length(); l<len; l++ )
+            {
+                if( screen.Layers[l] == layer )
+                {
+                    screen.CurrentLayer = layer;
+                    screen.Draw();
+                    screen.CurrentLayer = 0;
 
-            screen.Draw();
+                    // don't draw a screen more than once per layer
+                    break;
+                }
+            }
         }
     }
 
@@ -225,6 +236,7 @@ class PGUI
         if( !IsScreen( id ) && !IsActiveScreen( id ))
         {
             screen.ID = id;
+            screen.CurrentLayer = 0;
             this.allScreens.insertLast( screen );
             return( true );
         }

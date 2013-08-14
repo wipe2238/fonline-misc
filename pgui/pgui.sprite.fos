@@ -15,6 +15,7 @@ class PGUISprite : PGUIElement
     uint frameCount;
     string filename;
     uint color;
+    bool center;
 
     PGUISprite()
     {
@@ -53,7 +54,7 @@ class PGUISprite : PGUIElement
 
     private void PGUISpriteInit() final
     {
-        this.active = false;
+        this.active = this.center = false;
         this.id = this.frameCount = this.color = 0;
     }
 
@@ -118,7 +119,7 @@ class PGUISprite : PGUIElement
     void Draw() override
     {
         if( this.visible && this.id > 0 )
-            DrawSprite( this.id, -1, this.Left, this.Top, this.Width, this.Height, false, false, this.color );
+            DrawSprite( this.id, -1, this.Left, this.Top, this.Width, this.Height, false, this.center, this.color );
 
         PGUIElement::Draw();
     }

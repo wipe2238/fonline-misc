@@ -18,15 +18,27 @@
 
 class PGUIStaticScreen : PGUIScreen
 {
-    PGUIStaticScreen( uint layer )
+    PGUIStaticScreen( uint8 layer )
     {
         super( layer );
         this.PGUIStaticScreenInit();
     }
 
-    PGUIStaticScreen( uint width, uint height, uint layer )
+    PGUIStaticScreen( array<uint8>& layers )
+    {
+	super( layers );
+	this.PGUIStaticScreenInit();
+    }
+
+    PGUIStaticScreen( uint width, uint height, uint8 layer )
     {
         super( width, height, layer );
+        this.PGUIStaticScreenInit();
+    }
+
+    PGUIStaticScreen( uint width, uint height, array<uint8>& layers )
+    {
+        super( width, height, layers );
         this.PGUIStaticScreenInit();
     }
 
