@@ -550,39 +550,6 @@ context default
     keyword whole WaitPing                    fonline-functions
 
     #=========================
-    # addons functions
-    keyword whole abs            addons-functions
-    keyword whole acos           addons-functions
-    keyword whole asin           addons-functions
-    keyword whole atan           addons-functions
-    keyword whole atan2          addons-functions
-    keyword whole ceil           addons-functions
-    keyword whole cos            addons-functions
-    keyword whole cosh           addons-functions
-    keyword whole findFirst      addons-functions
-    keyword whole findFirstNotOf addons-functions
-    keyword whole findFirstOf    addons-functions
-    keyword whole findLast       addons-functions
-    keyword whole findLastNotOf  addons-functions
-    keyword whole findLastOf     addons-functions
-    keyword whole floor          addons-functions
-    keyword whole fraction       addons-functions
-    keyword whole join           addons-functions
-    keyword whole log            addons-functions
-    keyword whole log10          addons-functions
-    keyword whole pow            addons-functions
-    keyword whole sin            addons-functions
-    keyword whole sinh           addons-functions
-    keyword whole split          addons-functions
-    keyword whole splitEx        addons-functions
-    keyword whole sqrt           addons-functions
-    keyword whole strlwr         addons-functions
-    keyword whole strupr         addons-functions
-    keyword whole substring      addons-functions
-    keyword whole tan            addons-functions
-    keyword whole tanh           addons-functions
-
-    #=========================
     # Mapper variables
     keyword whole __AlwaysOnTop           fonline-vars
     keyword whole __AlwaysRun             fonline-vars
@@ -786,39 +753,6 @@ context default
     keyword whole TabSetName             fonline-functions
     keyword whole TabSetTileDirs         fonline-functions
     keyword whole UnloadMap              fonline-functions
-
-    #=========================
-    # addons functions
-    keyword whole abs            addons-functions
-    keyword whole acos           addons-functions
-    keyword whole asin           addons-functions
-    keyword whole atan           addons-functions
-    keyword whole atan2          addons-functions
-    keyword whole ceil           addons-functions
-    keyword whole cos            addons-functions
-    keyword whole cosh           addons-functions
-    keyword whole findFirst      addons-functions
-    keyword whole findFirstNotOf addons-functions
-    keyword whole findFirstOf    addons-functions
-    keyword whole findLast       addons-functions
-    keyword whole findLastNotOf  addons-functions
-    keyword whole findLastOf     addons-functions
-    keyword whole floor          addons-functions
-    keyword whole fraction       addons-functions
-    keyword whole join           addons-functions
-    keyword whole log            addons-functions
-    keyword whole log10          addons-functions
-    keyword whole pow            addons-functions
-    keyword whole sin            addons-functions
-    keyword whole sinh           addons-functions
-    keyword whole split          addons-functions
-    keyword whole splitEx        addons-functions
-    keyword whole sqrt           addons-functions
-    keyword whole strlwr         addons-functions
-    keyword whole strupr         addons-functions
-    keyword whole substring      addons-functions
-    keyword whole tan            addons-functions
-    keyword whole tanh           addons-functions
 
     #=========================
     # Server variables

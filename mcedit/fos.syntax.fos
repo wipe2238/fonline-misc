@@ -64,6 +64,7 @@ void main()
 	file outFile;
 	if( outFile.open( OUTFILE, "a" ) >= 0 )
 	{
+#ifdef ADDONS
 	    if( fLen > 0 )
 	    {
 		uint aMax = 0;
@@ -75,6 +76,7 @@ void main()
 		saveArray( outFile, "addons functions", "addons-functions", funcs, aMax, true );
 		outFile.writeString( "\n" );
 	    }
+#endif
 	    if( vLen > 0 )
 	    {
 		uint vMax = 0;

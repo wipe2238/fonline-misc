@@ -44,7 +44,7 @@ $(REQUIREMENTS):
 
 $(OUT):
 	cp $(OUT_BEGIN) $@
-	./ASCompiler $(OUT).fos -client -D "OUTFILE \"$@\"" -run main
+	./ASCompiler $(OUT).fos -client -D "OUTFILE \"$@\"" -D ADDONS -run main
 	./ASCompiler $(OUT).fos -mapper -D "OUTFILE \"$@\"" -run main
 	./ASCompiler $(OUT).fos         -D "OUTFILE \"$@\"" -run main
 	cat $(OUT_END) >> $@
