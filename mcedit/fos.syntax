@@ -1,0 +1,1163 @@
+#
+# ActionScript+FOnline syntax highlighting
+# for MC Editor/CoolEdit
+#
+#
+# Author: Wipe/Rotators
+# based on: as.syntax
+#
+# Author: Oleg Kosenkov <oleg@kosenkov.ca>
+# Based on js.syntax
+#
+#
+# 2014-05-16  Wipe
+#    * Cleared, added color defines
+#    * Added FOnline colorizing
+#
+# 2011-12-27  Oleg Kosenkov <oleg@kosenkov.ca>
+#    * Initial public release.
+#
+
+# Available colors:
+# black, blue, brightblue, brightcyan, brightgreen, brightmagenta,
+# brightred, brown, cyan, gray, green, lightgray, magenta, red, white,
+# yellow
+
+define angelscript yellow
+define special     yellow
+define separators  brightcyan
+define semicolon   brightmagenta
+
+define addons-functions yellow
+
+define fonline-types     cyan
+define fonline-vars      white
+define fonline-functions brightcyan
+
+define numbers    brightgreen
+define text       green
+define text-extra brightgreen
+define true+false brightgreen
+define macros white
+
+define comment            brown
+define preprocessor       red
+define preprocessor-extra brightred
+
+context default
+    #=========================
+    # Keywords
+    keyword whole and       angelscript
+    keyword whole break     angelscript
+    keyword whole case      angelscript
+    keyword whole cast      angelscript
+    keyword whole class     angelscript
+    keyword whole const     angelscript
+    keyword whole continue  angelscript
+    keyword whole default   angelscript
+    keyword whole do        angelscript
+    keyword whole else      angelscript
+    keyword whole final     angelscript
+    keyword whole for       angelscript
+    keyword whole from      angelscript
+    keyword whole funcdef   angelscript
+    keyword whole get       angelscript
+    keyword whole if        angelscript
+    keyword whole import    angelscript
+    keyword whole in        angelscript
+    keyword whole inout     angelscript
+    keyword whole interface angelscript
+    keyword whole is        angelscript
+    keyword whole mixin     angelscript
+    keyword whole namespace angelscript
+    keyword whole not       angelscript
+    keyword whole or        angelscript
+    keyword whole out       angelscript
+    keyword whole override  angelscript
+    keyword whole private   angelscript
+    keyword whole return    angelscript
+    keyword whole set       angelscript
+    keyword whole shared    angelscript
+    keyword whole super     angelscript
+    keyword whole switch    angelscript
+    keyword whole this      angelscript
+    keyword whole typedef   angelscript
+    keyword whole while     angelscript
+    keyword whole void      angelscript
+    keyword whole xor       angelscript
+
+    #=========================
+    # Primitives
+    keyword whole bool angelscript
+    keyword whole enum angelscript
+    keyword whole float angelscript
+    keyword whole double angelscript
+    keyword whole int angelscript
+    keyword whole int8 angelscript
+    keyword whole int16 angelscript
+    keyword whole int32 angelscript
+    keyword whole uint angelscript
+    keyword whole uint8 angelscript
+    keyword whole uint16 angelscript
+    keyword whole uint32 angelscript
+
+    #=========================
+    # Addons
+    keyword whole any        angelscript
+    keyword whole array      angelscript
+    keyword whole dictionary angelscript
+    keyword whole file       angelscript
+    keyword whole string     angelscript
+
+    #=========================
+    # FOnline types
+    keyword whole CraftItem    fonline-types
+    keyword whole Critter      fonline-types
+    keyword whole CritterCl    fonline-types
+    keyword whole CritterParam fonline-types
+    keyword whole DataRef      fonline-types
+    keyword whole DataVal      fonline-types
+    keyword whole GameVar      fonline-types
+    keyword whole Item         fonline-types
+    keyword whole ItemCl       fonline-types
+    keyword whole Location     fonline-types
+    keyword whole Map          fonline-types
+    keyword whole MapperMap    fonline-types
+    keyword whole MapperObject fonline-types
+    keyword whole NpcPlane     fonline-types
+    keyword whole ProtoItem    fonline-types
+    keyword whole Scenery      fonline-types
+    keyword whole Synchronizer fonline-types
+
+    #=========================
+    # Generic macros
+    keyword whole valid     macros
+    keyword whole null      macros
+    keyword whole CLAMP     macros
+    keyword whole FLAG      macros
+    keyword whole SETFLAG   macros
+    keyword whole UNSETFLAG macros
+
+    #=========================
+    # Constants
+    keyword whole false true+false
+    keyword whole true  true+false
+
+    #=========================
+    # Comments
+    keyword /\* comment
+    keyword \*/ comment
+    keyword // comment
+
+    #=========================
+    # addons functions
+    keyword whole abs            addons-functions
+    keyword whole acos           addons-functions
+    keyword whole asin           addons-functions
+    keyword whole atan           addons-functions
+    keyword whole atan2          addons-functions
+    keyword whole ceil           addons-functions
+    keyword whole cos            addons-functions
+    keyword whole cosh           addons-functions
+    keyword whole findFirst      addons-functions
+    keyword whole findFirstNotOf addons-functions
+    keyword whole findFirstOf    addons-functions
+    keyword whole findLast       addons-functions
+    keyword whole findLastNotOf  addons-functions
+    keyword whole findLastOf     addons-functions
+    keyword whole floor          addons-functions
+    keyword whole fraction       addons-functions
+    keyword whole join           addons-functions
+    keyword whole log            addons-functions
+    keyword whole log10          addons-functions
+    keyword whole pow            addons-functions
+    keyword whole sin            addons-functions
+    keyword whole sinh           addons-functions
+    keyword whole split          addons-functions
+    keyword whole splitEx        addons-functions
+    keyword whole sqrt           addons-functions
+    keyword whole strlwr         addons-functions
+    keyword whole strupr         addons-functions
+    keyword whole substring      addons-functions
+    keyword whole tan            addons-functions
+    keyword whole tanh           addons-functions
+
+    #=========================
+    # Client variables
+    keyword whole __AbsoluteOffsets           fonline-vars
+    keyword whole __AccountPlayTime           fonline-vars
+    keyword whole __AddictionBegin            fonline-vars
+    keyword whole __AddictionEnd              fonline-vars
+    keyword whole __AlwaysOnTop               fonline-vars
+    keyword whole __AlwaysRun                 fonline-vars
+    keyword whole __AlwaysRunMoveDist         fonline-vars
+    keyword whole __AlwaysRunUseDist          fonline-vars
+    keyword whole __Anim2CombatBegin          fonline-vars
+    keyword whole __Anim2CombatEnd            fonline-vars
+    keyword whole __Anim2CombatIdle           fonline-vars
+    keyword whole __Animation3dFPS            fonline-vars
+    keyword whole __Animation3dSmoothTime     fonline-vars
+    keyword whole __ApCostAimArms             fonline-vars
+    keyword whole __ApCostAimEyes             fonline-vars
+    keyword whole __ApCostAimGroin            fonline-vars
+    keyword whole __ApCostAimHead             fonline-vars
+    keyword whole __ApCostAimLegs             fonline-vars
+    keyword whole __ApCostAimTorso            fonline-vars
+    keyword whole __ApRegeneration            fonline-vars
+    keyword whole __AssimpLogging             fonline-vars
+    keyword whole __AttackAnimationsMinDist   fonline-vars
+    keyword whole __BagRefreshTime            fonline-vars
+    keyword whole __Breaktime                 fonline-vars
+    keyword whole __CombatMessagesType        fonline-vars
+    keyword whole __ConsoleActive             fonline-vars
+    keyword whole __ConsoleHistorySize        fonline-vars
+    keyword whole __CritterFidgetTime         fonline-vars
+    keyword whole __CritterIdleTick           fonline-vars
+    keyword whole __CustomItemCost            fonline-vars
+    keyword whole __DamageBegin               fonline-vars
+    keyword whole __DamageEnd                 fonline-vars
+    keyword whole __DamageHitDelay            fonline-vars
+    keyword whole __Day                       fonline-vars
+    keyword whole __DeadHitPoints             fonline-vars
+    keyword whole __DefaultCombatMode         fonline-vars
+    keyword whole __DialogDemandRecheck       fonline-vars
+    keyword whole __DisableKeyboardEvents     fonline-vars
+    keyword whole __DisableLMenu              fonline-vars
+    keyword whole __DisableMouseEvents        fonline-vars
+    keyword whole __DisableTcpNagle           fonline-vars
+    keyword whole __DisableZlibCompression    fonline-vars
+    keyword whole __DlgBarterMinTime          fonline-vars
+    keyword whole __DlgTalkMinTime            fonline-vars
+    keyword whole __DoubleClickTime           fonline-vars
+    keyword whole __EffectValue0              fonline-vars
+    keyword whole __EffectValue1              fonline-vars
+    keyword whole __EffectValue2              fonline-vars
+    keyword whole __EffectValue3              fonline-vars
+    keyword whole __EffectValue4              fonline-vars
+    keyword whole __EffectValue5              fonline-vars
+    keyword whole __EffectValue6              fonline-vars
+    keyword whole __EffectValue7              fonline-vars
+    keyword whole __EffectValue8              fonline-vars
+    keyword whole __EffectValue9              fonline-vars
+    keyword whole __Enable3dRendering         fonline-vars
+    keyword whole __FPS                       fonline-vars
+    keyword whole __FixBoyDefaultExperience   fonline-vars
+    keyword whole __FixedFPS                  fonline-vars
+    keyword whole __FloodSize                 fonline-vars
+    keyword whole __FullScr                   fonline-vars
+    keyword whole __FullSecond                fonline-vars
+    keyword whole __GameServer                fonline-vars
+    keyword whole __GenerateWorldDisabled     fonline-vars
+    keyword whole __GlobalMapHeight           fonline-vars
+    keyword whole __GlobalMapMaxGroupCount    fonline-vars
+    keyword whole __GlobalMapMoveTime         fonline-vars
+    keyword whole __GlobalMapWidth            fonline-vars
+    keyword whole __GlobalMapZoneLength       fonline-vars
+    keyword whole __GmapActive                fonline-vars
+    keyword whole __GmapGroupCurX             fonline-vars
+    keyword whole __GmapGroupCurY             fonline-vars
+    keyword whole __GmapGroupSpeed            fonline-vars
+    keyword whole __GmapGroupToX              fonline-vars
+    keyword whole __GmapGroupToY              fonline-vars
+    keyword whole __GmapOffsetX               fonline-vars
+    keyword whole __GmapOffsetY               fonline-vars
+    keyword whole __GmapWait                  fonline-vars
+    keyword whole __GmapZoom                  fonline-vars
+    keyword whole __HelpInfo                  fonline-vars
+    keyword whole __HideCursor                fonline-vars
+    keyword whole __HidePassword              fonline-vars
+    keyword whole __Host                      fonline-vars
+    keyword whole __Hour                      fonline-vars
+    keyword whole __IndicatorType             fonline-vars
+    keyword whole __KarmaBegin                fonline-vars
+    keyword whole __KarmaEnd                  fonline-vars
+    keyword whole __KillBegin                 fonline-vars
+    keyword whole __KillEnd                   fonline-vars
+    keyword whole __LevelCap                  fonline-vars
+    keyword whole __LevelCapAddExperience     fonline-vars
+    keyword whole __Light                     fonline-vars
+    keyword whole __LoggingVars               fonline-vars
+    keyword whole __LookChecks                fonline-vars
+    keyword whole __LookDir0                  fonline-vars
+    keyword whole __LookDir1                  fonline-vars
+    keyword whole __LookDir2                  fonline-vars
+    keyword whole __LookDir3                  fonline-vars
+    keyword whole __LookDir4                  fonline-vars
+    keyword whole __LookMinimum               fonline-vars
+    keyword whole __LookNormal                fonline-vars
+    keyword whole __LookSneakDir0             fonline-vars
+    keyword whole __LookSneakDir1             fonline-vars
+    keyword whole __LookSneakDir2             fonline-vars
+    keyword whole __LookSneakDir3             fonline-vars
+    keyword whole __LookSneakDir4             fonline-vars
+    keyword whole __LookWeight                fonline-vars
+    keyword whole __MapCameraAngle            fonline-vars
+    keyword whole __MapDataPrefix             fonline-vars
+    keyword whole __MapHexHeight              fonline-vars
+    keyword whole __MapHexLineHeight          fonline-vars
+    keyword whole __MapHexWidth               fonline-vars
+    keyword whole __MapHexagonal              fonline-vars
+    keyword whole __MapRoofOffsX              fonline-vars
+    keyword whole __MapRoofOffsY              fonline-vars
+    keyword whole __MapRoofSkipSize           fonline-vars
+    keyword whole __MapSmoothPath             fonline-vars
+    keyword whole __MapTileOffsX              fonline-vars
+    keyword whole __MapTileOffsY              fonline-vars
+    keyword whole __MapZooming                fonline-vars
+    keyword whole __MaxNameLength             fonline-vars
+    keyword whole __MessNotify                fonline-vars
+    keyword whole __MinNameLength             fonline-vars
+    keyword whole __MinimumOfflineTime        fonline-vars
+    keyword whole __Minute                    fonline-vars
+    keyword whole __Month                     fonline-vars
+    keyword whole __MouseScroll               fonline-vars
+    keyword whole __MouseX                    fonline-vars
+    keyword whole __MouseY                    fonline-vars
+    keyword whole __MsgboxInvert              fonline-vars
+    keyword whole __MultiSampling             fonline-vars
+    keyword whole __Name                      fonline-vars
+    keyword whole __NoAnswerShuffle           fonline-vars
+    keyword whole __NpcMaxTalkers             fonline-vars
+    keyword whole __OpenGLDebug               fonline-vars
+    keyword whole __OpenGLRendering           fonline-vars
+    keyword whole __PerkBegin                 fonline-vars
+    keyword whole __PerkEnd                   fonline-vars
+    keyword whole __Ping                      fonline-vars
+    keyword whole __PingPeriod                fonline-vars
+    keyword whole __PlayerOffAppendix         fonline-vars
+    keyword whole __Port                      fonline-vars
+    keyword whole __ProxyHost                 fonline-vars
+    keyword whole __ProxyPass                 fonline-vars
+    keyword whole __ProxyPort                 fonline-vars
+    keyword whole __ProxyType                 fonline-vars
+    keyword whole __ProxyUser                 fonline-vars
+    keyword whole __Quit                      fonline-vars
+    keyword whole __RegistrationTimeout       fonline-vars
+    keyword whole __ReputationAccepted        fonline-vars
+    keyword whole __ReputationAntipathy       fonline-vars
+    keyword whole __ReputationBegin           fonline-vars
+    keyword whole __ReputationEnd             fonline-vars
+    keyword whole __ReputationHated           fonline-vars
+    keyword whole __ReputationLiked           fonline-vars
+    keyword whole __ReputationLoved           fonline-vars
+    keyword whole __ReputationNeutral         fonline-vars
+    keyword whole __RoofAlpha                 fonline-vars
+    keyword whole __RtAlwaysRun               fonline-vars
+    keyword whole __RtApCostCritterRun        fonline-vars
+    keyword whole __RtApCostCritterWalk       fonline-vars
+    keyword whole __RtApCostDropItem          fonline-vars
+    keyword whole __RtApCostMoveItemContainer fonline-vars
+    keyword whole __RtApCostMoveItemInventory fonline-vars
+    keyword whole __RtApCostPickCritter       fonline-vars
+    keyword whole __RtApCostPickItem          fonline-vars
+    keyword whole __RtApCostReloadWeapon      fonline-vars
+    keyword whole __RtApCostUseItem           fonline-vars
+    keyword whole __RtApCostUseSkill          fonline-vars
+    keyword whole __RunModAdd                 fonline-vars
+    keyword whole __RunModDiv                 fonline-vars
+    keyword whole __RunModMul                 fonline-vars
+    keyword whole __RunOnCombat               fonline-vars
+    keyword whole __RunOnTransfer             fonline-vars
+    keyword whole __ScreenHeight              fonline-vars
+    keyword whole __ScreenWidth               fonline-vars
+    keyword whole __ScriptRunMessageTimeout   fonline-vars
+    keyword whole __ScriptRunSuspendTimeout   fonline-vars
+    keyword whole __ScrollCheck               fonline-vars
+    keyword whole __ScrollDelay               fonline-vars
+    keyword whole __ScrollKeybDown            fonline-vars
+    keyword whole __ScrollKeybLeft            fonline-vars
+    keyword whole __ScrollKeybRight           fonline-vars
+    keyword whole __ScrollKeybUp              fonline-vars
+    keyword whole __ScrollMouseDown           fonline-vars
+    keyword whole __ScrollMouseLeft           fonline-vars
+    keyword whole __ScrollMouseRight          fonline-vars
+    keyword whole __ScrollMouseUp             fonline-vars
+    keyword whole __ScrollStep                fonline-vars
+    keyword whole __Second                    fonline-vars
+    keyword whole __ShoutDist                 fonline-vars
+    keyword whole __ShowCrit                  fonline-vars
+    keyword whole __ShowCritId                fonline-vars
+    keyword whole __ShowFast                  fonline-vars
+    keyword whole __ShowGroups                fonline-vars
+    keyword whole __ShowItem                  fonline-vars
+    keyword whole __ShowNpcNames              fonline-vars
+    keyword whole __ShowPlayerNames           fonline-vars
+    keyword whole __ShowRoof                  fonline-vars
+    keyword whole __ShowScen                  fonline-vars
+    keyword whole __ShowTile                  fonline-vars
+    keyword whole __ShowWall                  fonline-vars
+    keyword whole __Singleplayer              fonline-vars
+    keyword whole __SkillBegin                fonline-vars
+    keyword whole __SkillEnd                  fonline-vars
+    keyword whole __SkillMaxValue             fonline-vars
+    keyword whole __SkillModAdd2              fonline-vars
+    keyword whole __SkillModAdd3              fonline-vars
+    keyword whole __SkillModAdd4              fonline-vars
+    keyword whole __SkillModAdd5              fonline-vars
+    keyword whole __SkillModAdd6              fonline-vars
+    keyword whole __SneakDivider              fonline-vars
+    keyword whole __SoundNotify               fonline-vars
+    keyword whole __SpritesZoom               fonline-vars
+    keyword whole __SpritesZoomMax            fonline-vars
+    keyword whole __SpritesZoomMin            fonline-vars
+    keyword whole __StartSpecialPoints        fonline-vars
+    keyword whole __StartTagSkillPoints       fonline-vars
+    keyword whole __TalkDistance              fonline-vars
+    keyword whole __TbAlwaysRun               fonline-vars
+    keyword whole __TbApCostCritterMove       fonline-vars
+    keyword whole __TbApCostDropItem          fonline-vars
+    keyword whole __TbApCostMoveItemContainer fonline-vars
+    keyword whole __TbApCostMoveItemInventory fonline-vars
+    keyword whole __TbApCostPickCritter       fonline-vars
+    keyword whole __TbApCostPickItem          fonline-vars
+    keyword whole __TbApCostReloadWeapon      fonline-vars
+    keyword whole __TbApCostUseItem           fonline-vars
+    keyword whole __TbApCostUseSkill          fonline-vars
+    keyword whole __TextDelay                 fonline-vars
+    keyword whole __TimeMultiplier            fonline-vars
+    keyword whole __TimeoutBattle             fonline-vars
+    keyword whole __TimeoutBegin              fonline-vars
+    keyword whole __TimeoutEnd                fonline-vars
+    keyword whole __TimeoutTransfer           fonline-vars
+    keyword whole __TraitBegin                fonline-vars
+    keyword whole __TraitEnd                  fonline-vars
+    keyword whole __TurnBasedTick             fonline-vars
+    keyword whole __UpdateServer              fonline-vars
+    keyword whole __UpdateServerHost          fonline-vars
+    keyword whole __UpdateServerPort          fonline-vars
+    keyword whole __VSync                     fonline-vars
+    keyword whole __WisperDist                fonline-vars
+    keyword whole __Year                      fonline-vars
+
+    #=========================
+    # Client functions
+    keyword whole AddConstant                 fonline-functions
+    keyword whole AllowSlot                   fonline-functions
+    keyword whole AppendIfaceIni              fonline-functions
+    keyword whole ChangeCursor                fonline-functions
+    keyword whole DecodeUTF8                  fonline-functions
+    keyword whole DrawCritter2d               fonline-functions
+    keyword whole DrawCritter3d               fonline-functions
+    keyword whole DrawHardcodedScreen         fonline-functions
+    keyword whole DrawMapSprite               fonline-functions
+    keyword whole DrawPrimitive               fonline-functions
+    keyword whole DrawSprite                  fonline-functions
+    keyword whole DrawSpritePattern           fonline-functions
+    keyword whole DrawText                    fonline-functions
+    keyword whole EncodeUTF8                  fonline-functions
+    keyword whole FlushScreen                 fonline-functions
+    keyword whole FormatTags                  fonline-functions
+    keyword whole GetAngelScriptProperty      fonline-functions
+    keyword whole GetChosen                   fonline-functions
+    keyword whole GetChosenActions            fonline-functions
+    keyword whole GetConstantName             fonline-functions
+    keyword whole GetConstantValue            fonline-functions
+    keyword whole GetCritter                  fonline-functions
+    keyword whole GetCritterAlias             fonline-functions
+    keyword whole GetCritterAnimType          fonline-functions
+    keyword whole GetCritterSoundName         fonline-functions
+    keyword whole GetCritterTypeName          fonline-functions
+    keyword whole GetCritters                 fonline-functions
+    keyword whole GetCrittersDistantion       fonline-functions
+    keyword whole GetCrittersHex              fonline-functions
+    keyword whole GetCrittersPath             fonline-functions
+    keyword whole GetCurrentCursor            fonline-functions
+    keyword whole GetCurrentMapPid            fonline-functions
+    keyword whole GetDayColor                 fonline-functions
+    keyword whole GetDayTime                  fonline-functions
+    keyword whole GetDirection                fonline-functions
+    keyword whole GetDistantion               fonline-functions
+    keyword whole GetFog                      fonline-functions
+    keyword whole GetFullSecond               fonline-functions
+    keyword whole GetGameTime                 fonline-functions
+    keyword whole GetHardcodedScreenPos       fonline-functions
+    keyword whole GetHexCoord                 fonline-functions
+    keyword whole GetHexPos                   fonline-functions
+    keyword whole GetIfaceIniStr              fonline-functions
+    keyword whole GetItem                     fonline-functions
+    keyword whole GetLastCursor               fonline-functions
+    keyword whole GetLastError                fonline-functions
+    keyword whole GetMapHeight                fonline-functions
+    keyword whole GetMapWidth                 fonline-functions
+    keyword whole GetMessageFilters           fonline-functions
+    keyword whole GetMonitorCritter           fonline-functions
+    keyword whole GetMonitorHex               fonline-functions
+    keyword whole GetMonitorItem              fonline-functions
+    keyword whole GetMsgStr                   fonline-functions
+    keyword whole GetMsgStrCount              fonline-functions
+    keyword whole GetMsgStrNumLower           fonline-functions
+    keyword whole GetMsgStrNumUpper           fonline-functions
+    keyword whole GetOffsetDir                fonline-functions
+    keyword whole GetPathLength               fonline-functions
+    keyword whole GetProtoItem                fonline-functions
+    keyword whole GetScroll                   fonline-functions
+    keyword whole GetSomeValue                fonline-functions
+    keyword whole GetSpriteCount              fonline-functions
+    keyword whole GetSpriteHeight             fonline-functions
+    keyword whole GetSpriteWidth              fonline-functions
+    keyword whole GetStrHash                  fonline-functions
+    keyword whole GetTextInfo                 fonline-functions
+    keyword whole GetTick                     fonline-functions
+    keyword whole GetTime                     fonline-functions
+    keyword whole GetTurnBasedTime            fonline-functions
+    keyword whole HideScreen                  fonline-functions
+    keyword whole IsCritterAnim1              fonline-functions
+    keyword whole IsCritterCanAim             fonline-functions
+    keyword whole IsCritterCanArmor           fonline-functions
+    keyword whole IsCritterCanRotate          fonline-functions
+    keyword whole IsCritterCanRun             fonline-functions
+    keyword whole IsCritterCanWalk            fonline-functions
+    keyword whole IsMsgStr                    fonline-functions
+    keyword whole IsTurnBased                 fonline-functions
+    keyword whole KeyboardPress               fonline-functions
+    keyword whole LoadConstants               fonline-functions
+    keyword whole LoadDataFile                fonline-functions
+    keyword whole LoadFont                    fonline-functions
+    keyword whole LoadSprite                  fonline-functions
+    keyword whole LockScreenScroll            fonline-functions
+    keyword whole Log                         fonline-functions
+    keyword whole MapMessage                  fonline-functions
+    keyword whole Message                     fonline-functions
+    keyword whole MouseClick                  fonline-functions
+    keyword whole MoveHexByDir                fonline-functions
+    keyword whole MoveScreen                  fonline-functions
+    keyword whole PlayMusic                   fonline-functions
+    keyword whole PlaySound                   fonline-functions
+    keyword whole PlayVideo                   fonline-functions
+    keyword whole Preload3dFiles              fonline-functions
+    keyword whole QuakeScreen                 fonline-functions
+    keyword whole Random                      fonline-functions
+    keyword whole RefreshItemsCollection      fonline-functions
+    keyword whole RefreshMap                  fonline-functions
+    keyword whole ReplaceText                 fonline-functions
+    keyword whole RunServerScript             fonline-functions
+    keyword whole RunServerScriptUnsafe       fonline-functions
+    keyword whole SaveLogFile                 fonline-functions
+    keyword whole SaveScreenshot              fonline-functions
+    keyword whole SetAngelScriptProperty      fonline-functions
+    keyword whole SetChosenActions            fonline-functions
+    keyword whole SetDefaultFont              fonline-functions
+    keyword whole SetEffect                   fonline-functions
+    keyword whole SetMessageFilters           fonline-functions
+    keyword whole SetParameterChangeBehaviour fonline-functions
+    keyword whole SetParameterGetBehaviour    fonline-functions
+    keyword whole SetRainAnimation            fonline-functions
+    keyword whole SetRegistrationParameter    fonline-functions
+    keyword whole SetScroll                   fonline-functions
+    keyword whole ShowScreen                  fonline-functions
+    keyword whole StrToFloat                  fonline-functions
+    keyword whole StrToInt                    fonline-functions
+    keyword whole WaitPing                    fonline-functions
+
+    #=========================
+    # addons functions
+    keyword whole abs            addons-functions
+    keyword whole acos           addons-functions
+    keyword whole asin           addons-functions
+    keyword whole atan           addons-functions
+    keyword whole atan2          addons-functions
+    keyword whole ceil           addons-functions
+    keyword whole cos            addons-functions
+    keyword whole cosh           addons-functions
+    keyword whole findFirst      addons-functions
+    keyword whole findFirstNotOf addons-functions
+    keyword whole findFirstOf    addons-functions
+    keyword whole findLast       addons-functions
+    keyword whole findLastNotOf  addons-functions
+    keyword whole findLastOf     addons-functions
+    keyword whole floor          addons-functions
+    keyword whole fraction       addons-functions
+    keyword whole join           addons-functions
+    keyword whole log            addons-functions
+    keyword whole log10          addons-functions
+    keyword whole pow            addons-functions
+    keyword whole sin            addons-functions
+    keyword whole sinh           addons-functions
+    keyword whole split          addons-functions
+    keyword whole splitEx        addons-functions
+    keyword whole sqrt           addons-functions
+    keyword whole strlwr         addons-functions
+    keyword whole strupr         addons-functions
+    keyword whole substring      addons-functions
+    keyword whole tan            addons-functions
+    keyword whole tanh           addons-functions
+
+    #=========================
+    # Mapper variables
+    keyword whole __AlwaysOnTop           fonline-vars
+    keyword whole __AlwaysRun             fonline-vars
+    keyword whole __AlwaysRunMoveDist     fonline-vars
+    keyword whole __AlwaysRunUseDist      fonline-vars
+    keyword whole __Anim2CombatBegin      fonline-vars
+    keyword whole __Anim2CombatEnd        fonline-vars
+    keyword whole __Anim2CombatIdle       fonline-vars
+    keyword whole __Animation3dFPS        fonline-vars
+    keyword whole __Animation3dSmoothTime fonline-vars
+    keyword whole __AssimpLogging         fonline-vars
+    keyword whole __ClientPath            fonline-vars
+    keyword whole __CombatMessagesType    fonline-vars
+    keyword whole __ConsoleHistorySize    fonline-vars
+    keyword whole __CritterFidgetTime     fonline-vars
+    keyword whole __DamageHitDelay        fonline-vars
+    keyword whole __DefaultCombatMode     fonline-vars
+    keyword whole __DisableKeyboardEvents fonline-vars
+    keyword whole __DisableLMenu          fonline-vars
+    keyword whole __DisableMouseEvents    fonline-vars
+    keyword whole __DoubleClickTime       fonline-vars
+    keyword whole __EffectValue0          fonline-vars
+    keyword whole __EffectValue1          fonline-vars
+    keyword whole __EffectValue2          fonline-vars
+    keyword whole __EffectValue3          fonline-vars
+    keyword whole __EffectValue4          fonline-vars
+    keyword whole __EffectValue5          fonline-vars
+    keyword whole __EffectValue6          fonline-vars
+    keyword whole __EffectValue7          fonline-vars
+    keyword whole __EffectValue8          fonline-vars
+    keyword whole __EffectValue9          fonline-vars
+    keyword whole __Enable3dRendering     fonline-vars
+    keyword whole __FPS                   fonline-vars
+    keyword whole __FixedFPS              fonline-vars
+    keyword whole __FullScr               fonline-vars
+    keyword whole __HelpInfo              fonline-vars
+    keyword whole __HideCursor            fonline-vars
+    keyword whole __HidePassword          fonline-vars
+    keyword whole __Host                  fonline-vars
+    keyword whole __IndicatorType         fonline-vars
+    keyword whole __Light                 fonline-vars
+    keyword whole __MapCameraAngle        fonline-vars
+    keyword whole __MapDataPrefix         fonline-vars
+    keyword whole __MapHexHeight          fonline-vars
+    keyword whole __MapHexLineHeight      fonline-vars
+    keyword whole __MapHexWidth           fonline-vars
+    keyword whole __MapHexagonal          fonline-vars
+    keyword whole __MapRoofOffsX          fonline-vars
+    keyword whole __MapRoofOffsY          fonline-vars
+    keyword whole __MapRoofSkipSize       fonline-vars
+    keyword whole __MapSmoothPath         fonline-vars
+    keyword whole __MapTileOffsX          fonline-vars
+    keyword whole __MapTileOffsY          fonline-vars
+    keyword whole __MapZooming            fonline-vars
+    keyword whole __MessNotify            fonline-vars
+    keyword whole __MouseScroll           fonline-vars
+    keyword whole __MouseX                fonline-vars
+    keyword whole __MouseY                fonline-vars
+    keyword whole __MsgboxInvert          fonline-vars
+    keyword whole __MultiSampling         fonline-vars
+    keyword whole __Name                  fonline-vars
+    keyword whole __OpenGLDebug           fonline-vars
+    keyword whole __OpenGLRendering       fonline-vars
+    keyword whole __Ping                  fonline-vars
+    keyword whole __PingPeriod            fonline-vars
+    keyword whole __PlayerOffAppendix     fonline-vars
+    keyword whole __Port                  fonline-vars
+    keyword whole __ProxyHost             fonline-vars
+    keyword whole __ProxyPass             fonline-vars
+    keyword whole __ProxyPort             fonline-vars
+    keyword whole __ProxyType             fonline-vars
+    keyword whole __ProxyUser             fonline-vars
+    keyword whole __Quit                  fonline-vars
+    keyword whole __RoofAlpha             fonline-vars
+    keyword whole __RunModAdd             fonline-vars
+    keyword whole __RunModDiv             fonline-vars
+    keyword whole __RunModMul             fonline-vars
+    keyword whole __ScreenHeight          fonline-vars
+    keyword whole __ScreenWidth           fonline-vars
+    keyword whole __ScrollCheck           fonline-vars
+    keyword whole __ScrollDelay           fonline-vars
+    keyword whole __ScrollKeybDown        fonline-vars
+    keyword whole __ScrollKeybLeft        fonline-vars
+    keyword whole __ScrollKeybRight       fonline-vars
+    keyword whole __ScrollKeybUp          fonline-vars
+    keyword whole __ScrollMouseDown       fonline-vars
+    keyword whole __ScrollMouseLeft       fonline-vars
+    keyword whole __ScrollMouseRight      fonline-vars
+    keyword whole __ScrollMouseUp         fonline-vars
+    keyword whole __ScrollStep            fonline-vars
+    keyword whole __ServerPath            fonline-vars
+    keyword whole __ShowCorners           fonline-vars
+    keyword whole __ShowCrit              fonline-vars
+    keyword whole __ShowCritId            fonline-vars
+    keyword whole __ShowDrawOrder         fonline-vars
+    keyword whole __ShowFast              fonline-vars
+    keyword whole __ShowGroups            fonline-vars
+    keyword whole __ShowItem              fonline-vars
+    keyword whole __ShowNpcNames          fonline-vars
+    keyword whole __ShowPlayerNames       fonline-vars
+    keyword whole __ShowRoof              fonline-vars
+    keyword whole __ShowScen              fonline-vars
+    keyword whole __ShowSpriteCuts        fonline-vars
+    keyword whole __ShowTile              fonline-vars
+    keyword whole __ShowWall              fonline-vars
+    keyword whole __SoundNotify           fonline-vars
+    keyword whole __SplitTilesCollection  fonline-vars
+    keyword whole __SpritesZoom           fonline-vars
+    keyword whole __SpritesZoomMax        fonline-vars
+    keyword whole __SpritesZoomMin        fonline-vars
+    keyword whole __TextDelay             fonline-vars
+    keyword whole __UpdateServerHost      fonline-vars
+    keyword whole __UpdateServerPort      fonline-vars
+    keyword whole __VSync                 fonline-vars
+
+    #=========================
+    # Mapper functions
+    keyword whole AddConstant            fonline-functions
+    keyword whole AllowSlot              fonline-functions
+    keyword whole DecodeUTF8             fonline-functions
+    keyword whole DeleteObject           fonline-functions
+    keyword whole DeleteObjects          fonline-functions
+    keyword whole DrawCritter2d          fonline-functions
+    keyword whole DrawCritter3d          fonline-functions
+    keyword whole DrawMapSprite          fonline-functions
+    keyword whole DrawPrimitive          fonline-functions
+    keyword whole DrawSprite             fonline-functions
+    keyword whole DrawSpritePattern      fonline-functions
+    keyword whole DrawText               fonline-functions
+    keyword whole EncodeUTF8             fonline-functions
+    keyword whole GetAngelScriptProperty fonline-functions
+    keyword whole GetConstantName        fonline-functions
+    keyword whole GetConstantValue       fonline-functions
+    keyword whole GetCritterAlias        fonline-functions
+    keyword whole GetCritterAnimType     fonline-functions
+    keyword whole GetCritterSoundName    fonline-functions
+    keyword whole GetCritterTypeName     fonline-functions
+    keyword whole GetDirection           fonline-functions
+    keyword whole GetDistantion          fonline-functions
+    keyword whole GetHexCoord            fonline-functions
+    keyword whole GetHexPos              fonline-functions
+    keyword whole GetIfaceIniStr         fonline-functions
+    keyword whole GetLastError           fonline-functions
+    keyword whole GetLoadedMaps          fonline-functions
+    keyword whole GetMapFileNames        fonline-functions
+    keyword whole GetMonitorHex          fonline-functions
+    keyword whole GetMonitorObject       fonline-functions
+    keyword whole GetMsgStr              fonline-functions
+    keyword whole GetMsgStrCount         fonline-functions
+    keyword whole GetMsgStrNumLower      fonline-functions
+    keyword whole GetMsgStrNumUpper      fonline-functions
+    keyword whole GetOffsetDir           fonline-functions
+    keyword whole GetPathLength          fonline-functions
+    keyword whole GetProtoItem           fonline-functions
+    keyword whole GetSelectedObject      fonline-functions
+    keyword whole GetSelectedObjects     fonline-functions
+    keyword whole GetSpriteCount         fonline-functions
+    keyword whole GetSpriteHeight        fonline-functions
+    keyword whole GetSpriteWidth         fonline-functions
+    keyword whole GetStrHash             fonline-functions
+    keyword whole GetTextInfo            fonline-functions
+    keyword whole GetTick                fonline-functions
+    keyword whole IsCritterAnim1         fonline-functions
+    keyword whole IsCritterCanAim        fonline-functions
+    keyword whole IsCritterCanArmor      fonline-functions
+    keyword whole IsCritterCanRotate     fonline-functions
+    keyword whole IsCritterCanRun        fonline-functions
+    keyword whole IsCritterCanWalk       fonline-functions
+    keyword whole IsMsgStr               fonline-functions
+    keyword whole KeyboardPress          fonline-functions
+    keyword whole LoadConstants          fonline-functions
+    keyword whole LoadDataFile           fonline-functions
+    keyword whole LoadFont               fonline-functions
+    keyword whole LoadMap                fonline-functions
+    keyword whole LoadSprite             fonline-functions
+    keyword whole Log                    fonline-functions
+    keyword whole MapMessage             fonline-functions
+    keyword whole Message                fonline-functions
+    keyword whole MouseClick             fonline-functions
+    keyword whole MoveHexByDir           fonline-functions
+    keyword whole MoveScreen             fonline-functions
+    keyword whole Random                 fonline-functions
+    keyword whole ReplaceText            fonline-functions
+    keyword whole SaveMap                fonline-functions
+    keyword whole SelectObject           fonline-functions
+    keyword whole SelectObjects          fonline-functions
+    keyword whole SetAngelScriptProperty fonline-functions
+    keyword whole SetDefaultFont         fonline-functions
+    keyword whole SetRainAnimation       fonline-functions
+    keyword whole ShowCritterParam       fonline-functions
+    keyword whole ShowMap                fonline-functions
+    keyword whole StrToFloat             fonline-functions
+    keyword whole StrToInt               fonline-functions
+    keyword whole TabDelete              fonline-functions
+    keyword whole TabGetCritterPids      fonline-functions
+    keyword whole TabGetItemPids         fonline-functions
+    keyword whole TabGetTileDirs         fonline-functions
+    keyword whole TabSelect              fonline-functions
+    keyword whole TabSetCritterPids      fonline-functions
+    keyword whole TabSetItemPids         fonline-functions
+    keyword whole TabSetName             fonline-functions
+    keyword whole TabSetTileDirs         fonline-functions
+    keyword whole UnloadMap              fonline-functions
+
+    #=========================
+    # addons functions
+    keyword whole abs            addons-functions
+    keyword whole acos           addons-functions
+    keyword whole asin           addons-functions
+    keyword whole atan           addons-functions
+    keyword whole atan2          addons-functions
+    keyword whole ceil           addons-functions
+    keyword whole cos            addons-functions
+    keyword whole cosh           addons-functions
+    keyword whole findFirst      addons-functions
+    keyword whole findFirstNotOf addons-functions
+    keyword whole findFirstOf    addons-functions
+    keyword whole findLast       addons-functions
+    keyword whole findLastNotOf  addons-functions
+    keyword whole findLastOf     addons-functions
+    keyword whole floor          addons-functions
+    keyword whole fraction       addons-functions
+    keyword whole join           addons-functions
+    keyword whole log            addons-functions
+    keyword whole log10          addons-functions
+    keyword whole pow            addons-functions
+    keyword whole sin            addons-functions
+    keyword whole sinh           addons-functions
+    keyword whole split          addons-functions
+    keyword whole splitEx        addons-functions
+    keyword whole sqrt           addons-functions
+    keyword whole strlwr         addons-functions
+    keyword whole strupr         addons-functions
+    keyword whole substring      addons-functions
+    keyword whole tan            addons-functions
+    keyword whole tanh           addons-functions
+
+    #=========================
+    # Server variables
+    keyword whole __AbsoluteOffsets           fonline-vars
+    keyword whole __AccountPlayTime           fonline-vars
+    keyword whole __AddictionBegin            fonline-vars
+    keyword whole __AddictionEnd              fonline-vars
+    keyword whole __ApCostAimArms             fonline-vars
+    keyword whole __ApCostAimEyes             fonline-vars
+    keyword whole __ApCostAimGroin            fonline-vars
+    keyword whole __ApCostAimHead             fonline-vars
+    keyword whole __ApCostAimLegs             fonline-vars
+    keyword whole __ApCostAimTorso            fonline-vars
+    keyword whole __ApRegeneration            fonline-vars
+    keyword whole __AttackAnimationsMinDist   fonline-vars
+    keyword whole __BagRefreshTime            fonline-vars
+    keyword whole __Breaktime                 fonline-vars
+    keyword whole __CritterIdleTick           fonline-vars
+    keyword whole __CustomItemCost            fonline-vars
+    keyword whole __DamageBegin               fonline-vars
+    keyword whole __DamageEnd                 fonline-vars
+    keyword whole __Day                       fonline-vars
+    keyword whole __DeadHitPoints             fonline-vars
+    keyword whole __DialogDemandRecheck       fonline-vars
+    keyword whole __DisableTcpNagle           fonline-vars
+    keyword whole __DisableZlibCompression    fonline-vars
+    keyword whole __DlgBarterMinTime          fonline-vars
+    keyword whole __DlgTalkMinTime            fonline-vars
+    keyword whole __FixBoyDefaultExperience   fonline-vars
+    keyword whole __FloodSize                 fonline-vars
+    keyword whole __FullSecond                fonline-vars
+    keyword whole __GameServer                fonline-vars
+    keyword whole __GenerateWorldDisabled     fonline-vars
+    keyword whole __GlobalMapHeight           fonline-vars
+    keyword whole __GlobalMapMaxGroupCount    fonline-vars
+    keyword whole __GlobalMapMoveTime         fonline-vars
+    keyword whole __GlobalMapWidth            fonline-vars
+    keyword whole __GlobalMapZoneLength       fonline-vars
+    keyword whole __Hour                      fonline-vars
+    keyword whole __KarmaBegin                fonline-vars
+    keyword whole __KarmaEnd                  fonline-vars
+    keyword whole __KillBegin                 fonline-vars
+    keyword whole __KillEnd                   fonline-vars
+    keyword whole __LevelCap                  fonline-vars
+    keyword whole __LevelCapAddExperience     fonline-vars
+    keyword whole __LoggingVars               fonline-vars
+    keyword whole __LookChecks                fonline-vars
+    keyword whole __LookDir0                  fonline-vars
+    keyword whole __LookDir1                  fonline-vars
+    keyword whole __LookDir2                  fonline-vars
+    keyword whole __LookDir3                  fonline-vars
+    keyword whole __LookDir4                  fonline-vars
+    keyword whole __LookMinimum               fonline-vars
+    keyword whole __LookNormal                fonline-vars
+    keyword whole __LookSneakDir0             fonline-vars
+    keyword whole __LookSneakDir1             fonline-vars
+    keyword whole __LookSneakDir2             fonline-vars
+    keyword whole __LookSneakDir3             fonline-vars
+    keyword whole __LookSneakDir4             fonline-vars
+    keyword whole __LookWeight                fonline-vars
+    keyword whole __MapCameraAngle            fonline-vars
+    keyword whole __MapDataPrefix             fonline-vars
+    keyword whole __MapHexHeight              fonline-vars
+    keyword whole __MapHexLineHeight          fonline-vars
+    keyword whole __MapHexWidth               fonline-vars
+    keyword whole __MapHexagonal              fonline-vars
+    keyword whole __MapRoofOffsX              fonline-vars
+    keyword whole __MapRoofOffsY              fonline-vars
+    keyword whole __MapRoofSkipSize           fonline-vars
+    keyword whole __MapSmoothPath             fonline-vars
+    keyword whole __MapTileOffsX              fonline-vars
+    keyword whole __MapTileOffsY              fonline-vars
+    keyword whole __MaxNameLength             fonline-vars
+    keyword whole __MinNameLength             fonline-vars
+    keyword whole __MinimumOfflineTime        fonline-vars
+    keyword whole __Minute                    fonline-vars
+    keyword whole __Month                     fonline-vars
+    keyword whole __NoAnswerShuffle           fonline-vars
+    keyword whole __NpcMaxTalkers             fonline-vars
+    keyword whole __PerkBegin                 fonline-vars
+    keyword whole __PerkEnd                   fonline-vars
+    keyword whole __RegistrationTimeout       fonline-vars
+    keyword whole __ReputationAccepted        fonline-vars
+    keyword whole __ReputationAntipathy       fonline-vars
+    keyword whole __ReputationBegin           fonline-vars
+    keyword whole __ReputationEnd             fonline-vars
+    keyword whole __ReputationHated           fonline-vars
+    keyword whole __ReputationLiked           fonline-vars
+    keyword whole __ReputationLoved           fonline-vars
+    keyword whole __ReputationNeutral         fonline-vars
+    keyword whole __RtAlwaysRun               fonline-vars
+    keyword whole __RtApCostCritterRun        fonline-vars
+    keyword whole __RtApCostCritterWalk       fonline-vars
+    keyword whole __RtApCostDropItem          fonline-vars
+    keyword whole __RtApCostMoveItemContainer fonline-vars
+    keyword whole __RtApCostMoveItemInventory fonline-vars
+    keyword whole __RtApCostPickCritter       fonline-vars
+    keyword whole __RtApCostPickItem          fonline-vars
+    keyword whole __RtApCostReloadWeapon      fonline-vars
+    keyword whole __RtApCostUseItem           fonline-vars
+    keyword whole __RtApCostUseSkill          fonline-vars
+    keyword whole __RunOnCombat               fonline-vars
+    keyword whole __RunOnTransfer             fonline-vars
+    keyword whole __ScriptRunMessageTimeout   fonline-vars
+    keyword whole __ScriptRunSuspendTimeout   fonline-vars
+    keyword whole __Second                    fonline-vars
+    keyword whole __ShoutDist                 fonline-vars
+    keyword whole __Singleplayer              fonline-vars
+    keyword whole __SkillBegin                fonline-vars
+    keyword whole __SkillEnd                  fonline-vars
+    keyword whole __SkillMaxValue             fonline-vars
+    keyword whole __SkillModAdd2              fonline-vars
+    keyword whole __SkillModAdd3              fonline-vars
+    keyword whole __SkillModAdd4              fonline-vars
+    keyword whole __SkillModAdd5              fonline-vars
+    keyword whole __SkillModAdd6              fonline-vars
+    keyword whole __SneakDivider              fonline-vars
+    keyword whole __StartSpecialPoints        fonline-vars
+    keyword whole __StartTagSkillPoints       fonline-vars
+    keyword whole __TalkDistance              fonline-vars
+    keyword whole __TbAlwaysRun               fonline-vars
+    keyword whole __TbApCostCritterMove       fonline-vars
+    keyword whole __TbApCostDropItem          fonline-vars
+    keyword whole __TbApCostMoveItemContainer fonline-vars
+    keyword whole __TbApCostMoveItemInventory fonline-vars
+    keyword whole __TbApCostPickCritter       fonline-vars
+    keyword whole __TbApCostPickItem          fonline-vars
+    keyword whole __TbApCostReloadWeapon      fonline-vars
+    keyword whole __TbApCostUseItem           fonline-vars
+    keyword whole __TbApCostUseSkill          fonline-vars
+    keyword whole __TimeMultiplier            fonline-vars
+    keyword whole __TimeoutBattle             fonline-vars
+    keyword whole __TimeoutBegin              fonline-vars
+    keyword whole __TimeoutEnd                fonline-vars
+    keyword whole __TimeoutTransfer           fonline-vars
+    keyword whole __TraitBegin                fonline-vars
+    keyword whole __TraitEnd                  fonline-vars
+    keyword whole __TurnBasedTick             fonline-vars
+    keyword whole __UpdateServer              fonline-vars
+    keyword whole __WisperDist                fonline-vars
+    keyword whole __Year                      fonline-vars
+
+    #=========================
+    # Server functions
+    keyword whole AddConstant                    fonline-functions
+    keyword whole AddTextListener                fonline-functions
+    keyword whole AllowSlot                      fonline-functions
+    keyword whole CreateLocation                 fonline-functions
+    keyword whole CreatePlane                    fonline-functions
+    keyword whole CreateTimeEvent                fonline-functions
+    keyword whole DecodeUTF8                     fonline-functions
+    keyword whole DeleteItem                     fonline-functions
+    keyword whole DeleteItems                    fonline-functions
+    keyword whole DeleteLocation                 fonline-functions
+    keyword whole DeleteNpc                      fonline-functions
+    keyword whole EncodeUTF8                     fonline-functions
+    keyword whole EraseAnyData                   fonline-functions
+    keyword whole EraseTextListener              fonline-functions
+    keyword whole EraseTimeEvent                 fonline-functions
+    keyword whole GetAllItems                    fonline-functions
+    keyword whole GetAllLocations                fonline-functions
+    keyword whole GetAllMaps                     fonline-functions
+    keyword whole GetAllNpc                      fonline-functions
+    keyword whole GetAllPlayers                  fonline-functions
+    keyword whole GetAngelScriptProperty         fonline-functions
+    keyword whole GetAnyData                     fonline-functions
+    keyword whole GetBagItems                    fonline-functions
+    keyword whole GetConstantName                fonline-functions
+    keyword whole GetConstantValue               fonline-functions
+    keyword whole GetCraftItem                   fonline-functions
+    keyword whole GetCritter                     fonline-functions
+    keyword whole GetCritterAlias                fonline-functions
+    keyword whole GetCritterAnimType             fonline-functions
+    keyword whole GetCritterSoundName            fonline-functions
+    keyword whole GetCritterTypeName             fonline-functions
+    keyword whole GetCrittersDistantion          fonline-functions
+    keyword whole GetDirection                   fonline-functions
+    keyword whole GetDistantion                  fonline-functions
+    keyword whole GetFullSecond                  fonline-functions
+    keyword whole GetGameTime                    fonline-functions
+    keyword whole GetGlobalMapCritters           fonline-functions
+    keyword whole GetGlobalVar                   fonline-functions
+    keyword whole GetImageColor                  fonline-functions
+    keyword whole GetItem                        fonline-functions
+    keyword whole GetItemDataMask                fonline-functions
+    keyword whole GetLastError                   fonline-functions
+    keyword whole GetLocalVar                    fonline-functions
+    keyword whole GetLocation                    fonline-functions
+    keyword whole GetLocationByPid               fonline-functions
+    keyword whole GetLocations                   fonline-functions
+    keyword whole GetMap                         fonline-functions
+    keyword whole GetMapByPid                    fonline-functions
+    keyword whole GetOffsetDir                   fonline-functions
+    keyword whole GetPlayer                      fonline-functions
+    keyword whole GetPlayerId                    fonline-functions
+    keyword whole GetPlayerName                  fonline-functions
+    keyword whole GetProtoCritter                fonline-functions
+    keyword whole GetProtoItem                   fonline-functions
+    keyword whole GetRegisteredPlayers           fonline-functions
+    keyword whole GetScriptId                    fonline-functions
+    keyword whole GetScriptName                  fonline-functions
+    keyword whole GetStrHash                     fonline-functions
+    keyword whole GetTick                        fonline-functions
+    keyword whole GetTime                        fonline-functions
+    keyword whole GetTimeEvent                   fonline-functions
+    keyword whole GetUnicumVar                   fonline-functions
+    keyword whole GetVisibleLocations            fonline-functions
+    keyword whole GetZoneLocationIds             fonline-functions
+    keyword whole IsAnyData                      fonline-functions
+    keyword whole IsCritterAnim1                 fonline-functions
+    keyword whole IsCritterCanAim                fonline-functions
+    keyword whole IsCritterCanArmor              fonline-functions
+    keyword whole IsCritterCanRotate             fonline-functions
+    keyword whole IsCritterCanRun                fonline-functions
+    keyword whole IsCritterCanWalk               fonline-functions
+    keyword whole LoadConstants                  fonline-functions
+    keyword whole LoadDataFile                   fonline-functions
+    keyword whole LoadImage                      fonline-functions
+    keyword whole Log                            fonline-functions
+    keyword whole MoveItem                       fonline-functions
+    keyword whole MoveItems                      fonline-functions
+    keyword whole RadioMessage                   fonline-functions
+    keyword whole RadioMessageMsg                fonline-functions
+    keyword whole Random                         fonline-functions
+    keyword whole Resynchronize                  fonline-functions
+    keyword whole RunDialog                      fonline-functions
+    keyword whole SetAngelScriptProperty         fonline-functions
+    keyword whole SetAnyData                     fonline-functions
+    keyword whole SetBestScore                   fonline-functions
+    keyword whole SetChosenSendParameter         fonline-functions
+    keyword whole SetItemDataMask                fonline-functions
+    keyword whole SetParameterChangeBehaviour    fonline-functions
+    keyword whole SetParameterDialogGetBehaviour fonline-functions
+    keyword whole SetParameterGetBehaviour       fonline-functions
+    keyword whole SetRegistrationParameter       fonline-functions
+    keyword whole SetSendParameter               fonline-functions
+    keyword whole SetTime                        fonline-functions
+    keyword whole SetTimeEvent                   fonline-functions
+    keyword whole StrToFloat                     fonline-functions
+    keyword whole StrToInt                       fonline-functions
+    keyword whole SwapCritters                   fonline-functions
+    keyword whole Synchronize                    fonline-functions
+    keyword whole WorldItemCount                 fonline-functions
+
+    #=========================
+    # Numbers
+    wholechars abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.
+
+    keyword whole 0\{xX\}\{0123456789abcdefABCDEF\}\[0123456789abcdefABCDEF\] numbers
+    keyword whole \{0123456789\}\[0123456789\] numbers
+    keyword whole \[0123456789\]\.\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\.\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\{eE\}\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\{eE\}\{\-\+\}\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\.\{0123456789\}\[0123456789\]\{eE\}\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\.\{0123456789\}\[0123456789\]\{eE\}\{\-\+\}\{0123456789\}\[0123456789\] numbers
+
+    #=========================
+    # Special symbols
+    keyword \. special
+    keyword \* special
+    keyword \+ special
+    keyword - special
+    keyword / special
+    keyword % special
+    keyword = special
+    keyword ! special
+    keyword & special
+    keyword | special
+    keyword ^ special
+    keyword ~ special
+    keyword > special
+    keyword < special
+
+    #=========================
+    # Separators
+    keyword { separators
+    keyword } separators
+    keyword ( separators
+    keyword ) separators
+    keyword [ separators
+    keyword ] separators
+    keyword , separators
+    keyword ? separators
+    keyword : separators
+    keyword ; semicolon
+
+#=============================
+# Preprocessor
+context #\[*\] \n preprocessor
+    keyword whole __ASCOMPILER preprocessor-extra
+    keyword whole __CLIENT     preprocessor-extra
+    keyword whole __MAPPER     preprocessor-extra
+    keyword whole __SERVER     preprocessor-extra
+
+    keyword "*" preprocessor-extra
+
+#=============================
+# Comments
+
+context exclusive /\* \*/ comment
+    spellcheck
+    keyword whole BUG brightred
+    keyword whole FixMe brightred
+    keyword whole FIXME brightred
+    keyword whole Note brightred
+    keyword whole NOTE brightred
+    keyword whole ToDo brightred
+    keyword whole TODO brightred
+    keyword !!\[!\] brightred
+    keyword ??\[?\] brightred
+
+
+context exclusive // \n comment
+    spellcheck
+    keyword whole BUG brightred
+    keyword whole FixMe brightred
+    keyword whole FIXME brightred
+    keyword whole Note brightred
+    keyword whole NOTE brightred
+    keyword whole ToDo brightred
+    keyword whole TODO brightred
+    keyword !!\[!\] brightred
+    keyword ??\[?\] brightred
+
+
+#=============================
+# Strings
+
+context " " text
+    spellcheck
+    keyword \\\{\\'"abtnvfr\}                  text-extra
+    keyword \\\{0123\}\{01234567\}\{01234567\} text-extra
+
+    keyword ' text-extra
+
+context ' ' text
+    spellcheck
+    keyword \\\{\\'"abtnvfr\}                  text-extra
+    keyword \\\{0123\}\{01234567\}\{01234567\} text-extra
+
+    keyword " text-extra

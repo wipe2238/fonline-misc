@@ -1,0 +1,98 @@
+    #=========================
+    # Numbers
+    wholechars abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.
+
+    keyword whole 0\{xX\}\{0123456789abcdefABCDEF\}\[0123456789abcdefABCDEF\] numbers
+    keyword whole \{0123456789\}\[0123456789\] numbers
+    keyword whole \[0123456789\]\.\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\.\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\{eE\}\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\{eE\}\{\-\+\}\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\.\{0123456789\}\[0123456789\]\{eE\}\{0123456789\}\[0123456789\] numbers
+    keyword whole \{0123456789\}\[0123456789\]\.\{0123456789\}\[0123456789\]\{eE\}\{\-\+\}\{0123456789\}\[0123456789\] numbers
+
+    #=========================
+    # Special symbols
+    keyword \. special
+    keyword \* special
+    keyword \+ special
+    keyword - special
+    keyword / special
+    keyword % special
+    keyword = special
+    keyword ! special
+    keyword & special
+    keyword | special
+    keyword ^ special
+    keyword ~ special
+    keyword > special
+    keyword < special
+
+    #=========================
+    # Separators
+    keyword { separators
+    keyword } separators
+    keyword ( separators
+    keyword ) separators
+    keyword [ separators
+    keyword ] separators
+    keyword , separators
+    keyword ? separators
+    keyword : separators
+    keyword ; semicolon
+
+#=============================
+# Preprocessor
+context #\[*\] \n preprocessor
+    keyword whole __ASCOMPILER preprocessor-extra
+    keyword whole __CLIENT     preprocessor-extra
+    keyword whole __MAPPER     preprocessor-extra
+    keyword whole __SERVER     preprocessor-extra
+
+    keyword "*" preprocessor-extra
+
+#=============================
+# Comments
+
+context exclusive /\* \*/ comment
+    spellcheck
+    keyword whole BUG brightred
+    keyword whole FixMe brightred
+    keyword whole FIXME brightred
+    keyword whole Note brightred
+    keyword whole NOTE brightred
+    keyword whole ToDo brightred
+    keyword whole TODO brightred
+    keyword !!\[!\] brightred
+    keyword ??\[?\] brightred
+
+
+context exclusive // \n comment
+    spellcheck
+    keyword whole BUG brightred
+    keyword whole FixMe brightred
+    keyword whole FIXME brightred
+    keyword whole Note brightred
+    keyword whole NOTE brightred
+    keyword whole ToDo brightred
+    keyword whole TODO brightred
+    keyword !!\[!\] brightred
+    keyword ??\[?\] brightred
+
+
+#=============================
+# Strings
+
+context " " text
+    spellcheck
+    keyword \\\{\\'"abtnvfr\}                  text-extra
+    keyword \\\{0123\}\{01234567\}\{01234567\} text-extra
+
+    keyword ' text-extra
+
+context ' ' text
+    spellcheck
+    keyword \\\{\\'"abtnvfr\}                  text-extra
+    keyword \\\{0123\}\{01234567\}\{01234567\} text-extra
+
+    keyword " text-extra

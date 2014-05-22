@@ -1,0 +1,151 @@
+#
+# ActionScript+FOnline syntax highlighting
+# for MC Editor/CoolEdit
+#
+#
+# Author: Wipe/Rotators
+# based on: as.syntax
+#
+# Author: Oleg Kosenkov <oleg@kosenkov.ca>
+# Based on js.syntax
+#
+#
+# 2014-05-16  Wipe
+#    * Cleared, added color defines
+#    * Added FOnline colorizing
+#
+# 2011-12-27  Oleg Kosenkov <oleg@kosenkov.ca>
+#    * Initial public release.
+#
+
+# Available colors:
+# black, blue, brightblue, brightcyan, brightgreen, brightmagenta,
+# brightred, brown, cyan, gray, green, lightgray, magenta, red, white,
+# yellow
+
+define angelscript yellow
+define special     yellow
+define separators  brightcyan
+define semicolon   brightmagenta
+
+define addons-functions yellow
+
+define fonline-types     cyan
+define fonline-vars      white
+define fonline-functions brightcyan
+
+define numbers    brightgreen
+define text       green
+define text-extra brightgreen
+define true+false brightgreen
+define macros white
+
+define comment            brown
+define preprocessor       red
+define preprocessor-extra brightred
+
+context default
+    #=========================
+    # Keywords
+    keyword whole and       angelscript
+    keyword whole break     angelscript
+    keyword whole case      angelscript
+    keyword whole cast      angelscript
+    keyword whole class     angelscript
+    keyword whole const     angelscript
+    keyword whole continue  angelscript
+    keyword whole default   angelscript
+    keyword whole do        angelscript
+    keyword whole else      angelscript
+    keyword whole final     angelscript
+    keyword whole for       angelscript
+    keyword whole from      angelscript
+    keyword whole funcdef   angelscript
+    keyword whole get       angelscript
+    keyword whole if        angelscript
+    keyword whole import    angelscript
+    keyword whole in        angelscript
+    keyword whole inout     angelscript
+    keyword whole interface angelscript
+    keyword whole is        angelscript
+    keyword whole mixin     angelscript
+    keyword whole namespace angelscript
+    keyword whole not       angelscript
+    keyword whole or        angelscript
+    keyword whole out       angelscript
+    keyword whole override  angelscript
+    keyword whole private   angelscript
+    keyword whole return    angelscript
+    keyword whole set       angelscript
+    keyword whole shared    angelscript
+    keyword whole super     angelscript
+    keyword whole switch    angelscript
+    keyword whole this      angelscript
+    keyword whole typedef   angelscript
+    keyword whole while     angelscript
+    keyword whole void      angelscript
+    keyword whole xor       angelscript
+
+    #=========================
+    # Primitives
+    keyword whole bool angelscript
+    keyword whole enum angelscript
+    keyword whole float angelscript
+    keyword whole double angelscript
+    keyword whole int angelscript
+    keyword whole int8 angelscript
+    keyword whole int16 angelscript
+    keyword whole int32 angelscript
+    keyword whole uint angelscript
+    keyword whole uint8 angelscript
+    keyword whole uint16 angelscript
+    keyword whole uint32 angelscript
+
+    #=========================
+    # Addons
+    keyword whole any        angelscript
+    keyword whole array      angelscript
+    keyword whole dictionary angelscript
+    keyword whole file       angelscript
+    keyword whole string     angelscript
+
+    #=========================
+    # FOnline types
+    keyword whole CraftItem    fonline-types
+    keyword whole Critter      fonline-types
+    keyword whole CritterCl    fonline-types
+    keyword whole CritterParam fonline-types
+    keyword whole DataRef      fonline-types
+    keyword whole DataVal      fonline-types
+    keyword whole GameVar      fonline-types
+    keyword whole Item         fonline-types
+    keyword whole ItemCl       fonline-types
+    keyword whole Location     fonline-types
+    keyword whole Map          fonline-types
+    keyword whole MapperMap    fonline-types
+    keyword whole MapperObject fonline-types
+    keyword whole NpcPlane     fonline-types
+    keyword whole ProtoItem    fonline-types
+    keyword whole Scenery      fonline-types
+    keyword whole Synchronizer fonline-types
+
+    #=========================
+    # Generic macros
+    keyword whole valid     macros
+    keyword whole null      macros
+    keyword whole CLAMP     macros
+    keyword whole FLAG      macros
+    keyword whole SETFLAG   macros
+    keyword whole UNSETFLAG macros
+
+    #=========================
+    # Constants
+    keyword whole false true+false
+    keyword whole true  true+false
+
+    #=========================
+    # Comments
+    keyword /\* comment
+    keyword \*/ comment
+    keyword // comment
+
