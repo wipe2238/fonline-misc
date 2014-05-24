@@ -1,11 +1,12 @@
 OUT          = fos.syntax
-OUT_BEGIN    = fos.begin.syntax
-OUT_END      = fos.end.syntax
+OUT_BEGIN    = $(OUT:.syntax=.begin.syntax)
+OUT_END      = $(OUT:.syntax=.end.syntax)
 
 OBJDIR       = lib
 SO_CLIENT    = $(OBJDIR)/$(OUT).client.so
 SO_MAPPER    = $(OBJDIR)/$(OUT).mapper.so
 SO_SERVER    = $(OBJDIR)/$(OUT).server.so
+SO           = $(SO_CLIENT) $(SO_MAPPER) $(SO_SERVER)
 
 SRC          = $(OUT).cpp
 
@@ -17,17 +18,26 @@ CXX        ?= g++
 CXXFLAGS    = -std=c++11 $(addprefix -I, $(INCLUDE_DIRS)) -MD
 CXXFLAGS_SO = -rdynamic -shared -fPIC
 
-OBJ_CLIENT = $(addprefix $(OBJDIR)/client/, $(notdir $(SRC:.cpp=.o)))
-OBJ_MAPPER = $(addprefix $(OBJDIR)/mapper/, $(notdir $(SRC:.cpp=.o)))
-OBJ_SERVER = $(addprefix $(OBJDIR)/server/, $(notdir $(SRC:.cpp=.o)))
+OBJ_CLIENT = $(addprefix $(OBJDIR)/, $(SRC:.cpp=.client.o))
+OBJ_MAPPER = $(addprefix $(OBJDIR)/, $(SRC:.cpp=.mapper.o))
+OBJ_SERVER = $(addprefix $(OBJDIR)/, $(SRC:.cpp=.server.o))
+OBJ        = $(OBJ_CLIENT) $(OBJ_MAPPER) $(OBJ_SERVER)
+
 
 DEP_CLIENT = $(OBJ_CLIENT:.o=.d)
-DEP_MAPPER = $(OBJ_CLIENT:.o=.d)
-DEP_SERVER = $(OBJ_CLIENT:.o=.d)
+DEP_MAPPER = $(OBJ_MAPPER:.o=.d)
+DEP_SERVER = $(OBJ_SERVER:.o=.d)
+DEP        = $(DEP_CLIENT) $(DEP_MAPPER) $(DEP_SERVER)
 
-.PHONY: $(OUT)
 
-all: $(REQUIREMENTS) $(OBJDIR) $(SO_CLIENT) $(SO_MAPPER) $(SO_SERVER) $(OUT)
+.PHONY: $(OUT) clean again
+
+all: $(REQUIREMENTS) $(OBJDIR) $(SO) $(OUT)
+
+clean:
+	rm -f $(DEP) $(OBJ) $(SO)
+
+again: clean all
 
 -include $(DEP_CLIENT)
 -include $(DEP_MAPPER)
@@ -42,17 +52,20 @@ $(REQUIREMENTS):
 	@echo  fonline.h..... [FOnline SDK repository]/Server/scripts/fonline.h
 	@false
 
-$(OUT):
+$(OUT): $(OUT_BEGIN) $(OUT_END)
 	cp $(OUT_BEGIN) $@
-	./ASCompiler $(OUT).fos -client -D "OUTFILE \"$@\"" -D ADDONS -run main
+	./ASCompiler $(OUT).fos -client -D "OUTFILE \"$@\"" -run main -D ADDONS
 	./ASCompiler $(OUT).fos -mapper -D "OUTFILE \"$@\"" -run main
 	./ASCompiler $(OUT).fos         -D "OUTFILE \"$@\"" -run main
 	cat $(OUT_END) >> $@
 
+$(OUT_BEGIN) $(OUT_END):
+	@echo Missing: $@
+	@echo Cannot continue
+	@false
+
 $(OBJDIR):
-	mkdir -p $(OBJDIR)/client
-	mkdir -p $(OBJDIR)/mapper
-	mkdir -p $(OBJDIR)/server
+	mkdir -p $@
 
 $(SO_CLIENT): $(OBJ_CLIENT)
 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_SO) -o $@ $<
@@ -63,14 +76,14 @@ $(SO_MAPPER): $(OBJ_MAPPER)
 $(SO_SERVER): $(OBJ_SERVER)
 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_SO) -o $@ $<
 
-$(OBJDIR)/client/%.o: %.cpp
+$(OBJDIR)/%.client.o: %.cpp
 	@echo $< ...
 	$(CXX) -D __CLIENT $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/mapper/%.o: %.cpp
+$(OBJDIR)/%.mapper.o: %.cpp
 	@echo $< ...
 	$(CXX) -D __MAPPER $(CXXFLAGS) -c $< -o $@
 
-$(OBJDIR)/server/%.o: %.cpp
+$(OBJDIR)/%.server.o: %.cpp
 	@echo $< ...
 	$(CXX) -D __SERVER $(CXXFLAGS) -c $< -o $@
