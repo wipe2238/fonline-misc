@@ -1,7 +1,7 @@
 #ifndef __FONLINE_MINIMAL_H__
 #define __FONLINE_MINIMAL_H__
 
-// Minimal set of defines required to comile FOnline .dll/.so,
+// Minimal set of defines required to compile FOnline .dll/.so,
 // without including _defines.fos
 
 #define ITEM_TYPE_NONE              (0)
