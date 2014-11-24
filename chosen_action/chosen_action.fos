@@ -1,0 +1,319 @@
+shared enum ChosenActionMode
+{
+	CHOSEN_ACTION_UNKNOWN = 0,
+	CHOSEN_ACTION_SET,
+	CHOSEN_ACTION_FIRST,
+	CHOSEN_ACTION_LAST
+};
+
+shared class ChosenAction
+{
+	// CHOSEN_MOVE
+
+	void Walk( uint16 hx, uint16 hy, ChosenActionMode mode )
+	{
+		this.Walk( hx, hy, 0, mode );
+	}
+
+	void Walk( uint16 hx, uint16 hy, uint cut, ChosenActionMode mode )
+	{
+		if( __GmapActive || GetCurrentMapPid() == 0 )
+			return;
+
+		if( hx > GetMapWidth() || hy > GetMapHeight() )
+			return;
+
+		array<uint> action = { CHOSEN_MOVE, hx, hy, 0, cut, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	void Run( uint16 hx, uint16 hy, ChosenActionMode mode )
+	{
+		this.Run( hx, hy, 0, mode );
+	}
+
+	void Run( uint16 hx, uint16 hy, uint cut, ChosenActionMode mode )
+	{
+		if( __GmapActive || GetCurrentMapPid() == 0 )
+			return;
+
+		if( hx > GetMapWidth() || hy > GetMapHeight() )
+			return;
+
+		array<uint> action = { CHOSEN_MOVE, hx, hy, 1, cut, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	// CHOSEN_MOVE_TO_CRIT
+
+	void Walk( CritterCl@ cr, ChosenActionMode mode )
+	{
+		this.Walk( cr, 0, mode );
+	}
+
+	void Walk( CritterCl@ cr, uint cut, ChosenActionMode mode )
+	{
+		if( !valid(cr) )
+			return;
+
+		array<uint> action = { CHOSEN_MOVE_TO_CRIT, cr.Id, 0, 0, cut, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	void Run( CritterCl@ cr, ChosenActionMode mode )
+	{
+		this.Run( cr, 0, mode );
+	}
+
+	void Run( CritterCl@ cr, uint cut, ChosenActionMode mode )
+	{
+		if( !valid(cr) )
+			return;
+
+		array<uint> action = { CHOSEN_MOVE_TO_CRIT, cr.Id, 0, 1, cut, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	// CHOSEN_USE_ITEM
+
+	void UseItem( uint16 pid, ChosenActionMode mode )
+	{
+		CritterCl@ chosen = GetChosen();
+		if( !valid(chosen) || !chosen.IsLife() )
+			return;
+
+		ItemCl@ item = chosen.GetItem( pid, -1 );
+		if( !valid(item) )
+			return;
+
+		this.UseItem( item, mode );
+	}
+
+	void UseItem( uint32 id, ChosenActionMode mode )
+	{
+		ItemCl@ item = GetItem( id );
+		if( !valid(item) )
+			return;
+
+		this.UseItem( item, mode );
+	}
+
+	void UseItem( ItemCl@ item, ChosenActionMode mode )
+	{
+		if( !valid(item) )
+			return;
+
+		array<uint> action = { CHOSEN_USE_ITEM, item.Id, 0, 0, 0, ITEM_MODE_USE, 0 };
+		this.Action( action, mode );
+	}
+
+	void Unload( ItemCl@ item, ChosenActionMode mode )
+	{
+		if( !valid(item) )
+		    return;
+
+		if( item.Proto.Type != ITEM_TYPE_WEAPON || item.AmmoCount == 0 )
+		    return;
+
+		array<uint> action = { CHOSEN_USE_ITEM, item.Id, 0, TARGET_SELF_ITEM, uint(-1), ITEM_MODE_RELOAD, 0 };
+		this.Action( action, mode );
+	}
+
+	void Reload( ItemCl@ item, ChosenActionMode mode )
+	{
+		if( !valid(item) )
+			return;
+
+		if( item.Proto.Type != ITEM_TYPE_WEAPON || item.AmmoCount == item.Proto.Weapon_MaxAmmoCount )
+			return;
+
+		array<uint> action = { CHOSEN_USE_ITEM, item.Id, 0, TARGET_SELF_ITEM, 0, ITEM_MODE_RELOAD, 0 };
+		this.Action( action, mode );
+	}
+
+	void Reload( array<ItemCl@>& items, ChosenActionMode mode )
+	{
+		for( uint i=0, iLen=items.length(); i<iLen; i++ )
+		{
+			if( !valid(items[i]) )
+				continue;
+
+			this.Reload( items[i], mode );
+		}
+	}
+
+	// CHOSEN_USE_SKL_ON_CRITTER
+
+	void UseSkill( uint skill, ChosenActionMode mode )
+	{
+		CritterCl@ chosen = GetChosen();
+		if( !valid(chosen) )
+			return;
+
+		this.UseSkill( skill, chosen, mode );
+	}
+
+	void UseSkill( uint skill, CritterCl@ critter, ChosenActionMode mode )
+	{
+		if( !valid(critter) )
+			return;
+
+		array<uint> action = { CHOSEN_USE_SKL_ON_CRITTER, skill, critter.Id, 0, 0, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	void UseSkill( uint skill, array<CritterCl@> critters, ChosenActionMode mode )
+	{
+		for( uint c=0, cLen=critters.length(); c<cLen; c++ )
+		{
+			if( !valid(critters[c]) )
+				continue;
+
+			this.UseSkill( skill, critters[c], mode );
+		}
+	}
+
+	void UseSkill( uint skill, ItemCl@ item, ChosenActionMode mode )
+	{
+		CritterCl@ chosen = GetChosen();
+		if( !valid(chosen) )
+			return;
+
+		if( !valid(item) )
+			return;
+
+		bool inventory = (item.Accessory == ACCESSORY_CRITTER && item.CritId == chosen.Id);
+		array<uint> action = { CHOSEN_USE_SKL_ON_ITEM, inventory ? 1 : 0, skill, item.Id, 0, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	void UseSkill( uint16 skill, array<ItemCl@> items, ChosenActionMode mode )
+	{
+		for( uint i=0, iLen=items.length(); i<iLen; i++ )
+		{
+			if( !valid(items[i]) )
+				continue;
+
+			this.UseSkill( skill, items[i], mode );
+		}
+	}
+
+	// CHOSEN_TALK_NPC
+
+	void Talk( CritterCl@ npc, ChosenActionMode mode )
+	{
+		if( !valid(npc) )
+			return;
+
+		if( !npc.IsNpc() )
+			return;
+
+		array<uint> action = { CHOSEN_TALK_NPC, npc.Id, 0, 0, 0, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	// CHOSEN_PICK_ITEM
+
+	void Pick( ItemCl@ item, ChosenActionMode mode )
+	{
+		if( !valid(item) )
+			return;
+
+		array<uint> action = { CHOSEN_PICK_ITEM, item.Proto.ProtoId, item.HexX, item.HexY, 0, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	// CHOSEN_PICK_CRIT
+
+	void Loot( CritterCl@ cr, ChosenActionMode mode )
+	{
+		if( !valid(cr) )
+			return;
+
+		if( !cr.IsDead() )
+			return;
+
+		array<uint> action = { CHOSEN_PICK_CRIT, cr.Id, 0, 0, 0, 0, 0 };
+		this.Action( action, mode );
+	}
+	
+	void Push( CritterCl@ cr, ChosenActionMode mode )
+	{
+		if( !valid(cr) )
+			return;
+
+		if( cr.IsDead() )
+			return;
+
+		array<uint> action = { CHOSEN_PICK_CRIT, cr.Id, 1, 0, 0, 0, 0 };
+		this.Action( action, mode );
+	}
+
+	// internal
+
+	private void Action( array<uint>& action, ChosenActionMode mode ) final
+	{
+		if( !valid(GetChosen()) )
+			return;
+
+		if( action.length() % 7 != 0 )
+			return;
+
+		if( mode == CHOSEN_ACTION_SET )
+			this.ActionSet( action );
+		else if( mode == CHOSEN_ACTION_FIRST )
+			this.ActionFirst( action );
+		else if( mode == CHOSEN_ACTION_LAST )
+			this.ActionLast( action );
+		else
+			Log( "unknown ChosenActionMode<"+mode+">" );
+	}
+
+	// overrides current actions
+	private void ActionSet( array<uint>& action ) final
+	{
+		if( !valid(GetChosen()) )
+			return;
+
+		if( action.length() % 7 != 0 )
+			return;
+
+		SetChosenActions( action );
+	}
+
+	private void ActionFirst( array<uint>& action ) final
+	{
+		if( !valid(GetChosen()) )
+			return;
+
+		if( action.length() % 7 != 0 )
+			return;
+
+		array<uint> actions;
+		uint aLen = GetChosenActions( actions );
+		for( uint a=0; a<aLen; a++ )
+		{
+			action.insertLast( actions[a] );
+		}
+
+		SetChosenActions( action );
+	}
+
+	private void ActionLast( array<uint>& action ) final
+	{
+		if( !valid(GetChosen()) )
+			return;
+
+		if( action.length() % 7 != 0 )
+			return;
+
+		array<uint> actions;
+		GetChosenActions( actions );
+		for( uint a=0, aLen=action.length(); a<aLen; a++ )
+		{
+			actions.insertLast( action[a] );
+		}
+
+		SetChosenActions( actions );
+	}
+};
